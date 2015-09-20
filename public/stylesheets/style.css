@@ -1,9 +1,16 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-image: url("http://cdn01.wallconvert.com/_media/wallpapers_1920x1080/1/2/mei-misaki-another-14360.jpg");
+  background-image: url("http://i.imgur.com/kN357Ed.jpg");
+  /* Set a specified height, or the minimum height for the background image */
+  min-height: 300px;
+  /* Set background image to fixed (don't scroll along with the page) */
+  background-attachment: fixed;
+  background-position: right bottom;
+  /* Set the background image to no repeat */
   background-repeat: no-repeat;
-  background-position: right top;
+  /* Scale the background image to be as large as possible */
+  background-size: 60%;
 }
 
 a {
