@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Misaki.moe' });
+  res.render('index', { title: 'misaki.moe' });
 });
 
 module.exports = router;
