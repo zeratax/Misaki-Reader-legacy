@@ -9,8 +9,8 @@ var gallerySchema = new Schema({
         alternative: { type: String, trim: true }
     }],
     properties: [{
-        status: { type: String },
-        artist: { type: String },
+        status: String
+        artist: String,
         circle: String,
         parody: String,
         scanlator: String,
