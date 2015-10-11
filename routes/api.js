@@ -63,14 +63,5 @@ router.route('/gallery/:id').delete(function(req, res) {
     res.json({ message: 'Gallery successfully deleted' });
   });
 });
-router.route('/uploader/:uploaderId').get(function(req, res) {
-  Gallery.find({ uploader: req.params.uploaderId }, function(err, gallery) {
-    if (err) {
-      return res.send(err);
-    }
-
-    res.json(gallery);
-  });
-});
 
 module.exports = router;
