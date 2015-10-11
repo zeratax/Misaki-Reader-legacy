@@ -1,0 +1,20 @@
+//setup
+@import "bootstrap/bootstrap.less";
+ 
+@import "variables.less";
+@import "mixins.less";
+//usage
+@brand-primary: @primary;
+@link-hover-color: @corner;
+.selectcolor(@primaryLight, @variantDark);
+
+body {
+	background-color: @gray-dark;
+	
+}
+.navbar {
+	.box-shadow(0 1px 3px rgba(0, 0, 0, 0.25));
+}
+.navbar-brand {
+	padding: 5px 25px;
+}

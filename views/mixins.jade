@@ -1,0 +1,4 @@
+mixin input(tag, title)
+	div.form-group
+		label(for= 'input' + tag)= title
+		input.form-control(id= 'input' + tag, type="text", placeholder=tag, name=tag)

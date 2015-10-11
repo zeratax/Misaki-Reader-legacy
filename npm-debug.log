@@ -1,0 +1,44 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\Jona\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'start' ]
+2 info using npm@3.3.3
+3 info using node@v4.1.0
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle misaki@0.0.0~prestart: misaki@0.0.0
+6 silly lifecycle misaki@0.0.0~prestart: no script for prestart, continuing
+7 info lifecycle misaki@0.0.0~start: misaki@0.0.0
+8 verbose lifecycle misaki@0.0.0~start: unsafe-perm in lifecycle true
+9 verbose lifecycle misaki@0.0.0~start: PATH: C:\Users\Jona\AppData\Roaming\npm\node_modules\npm\bin\node-gyp-bin;C:\Users\Jona\Documents\GitHub\Misaki\node_modules\.bin;C:\Users\Jona\AppData\Roaming\npm;C:\Program Files\nodejs\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\Perforce;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files\Perforce\Server;C:\adb;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\nodejs\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\OpenVPN\bin;C:\Program Files\Perforce\Server;C:\Users\Jona\AppData\Roaming\npm
+10 verbose lifecycle misaki@0.0.0~start: CWD: C:\Users\Jona\Documents\GitHub\Misaki
+11 silly lifecycle misaki@0.0.0~start: Args: [ '/d /s /c', 'node ./bin/www' ]
+12 silly lifecycle misaki@0.0.0~start: Returned: code: 1  signal: null
+13 info lifecycle misaki@0.0.0~start: Failed to exec start script
+14 verbose stack Error: misaki@0.0.0 start: `node ./bin/www`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (C:\Users\Jona\AppData\Roaming\npm\node_modules\npm\lib\utils\lifecycle.js:233:16)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at EventEmitter.emit (events.js:172:7)
+14 verbose stack     at ChildProcess.<anonymous> (C:\Users\Jona\AppData\Roaming\npm\node_modules\npm\lib\utils\spawn.js:24:14)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at ChildProcess.emit (events.js:172:7)
+14 verbose stack     at maybeClose (internal/child_process.js:817:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+15 verbose pkgid misaki@0.0.0
+16 verbose cwd C:\Users\Jona\Documents\GitHub\Misaki
+17 error Windows_NT 10.0.10240
+18 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\Jona\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "start"
+19 error node v4.1.0
+20 error npm  v3.3.3
+21 error code ELIFECYCLE
+22 error misaki@0.0.0 start: `node ./bin/www`
+22 error Exit status 1
+23 error Failed at the misaki@0.0.0 start script 'node ./bin/www'.
+23 error This is most likely a problem with the misaki package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     node ./bin/www
+23 error You can get their info via:
+23 error     npm owner ls misaki
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

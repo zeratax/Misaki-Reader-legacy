@@ -1,0 +1,439 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"gall",
+				"gallerId"
+			],
+			[
+				"galler",
+				"gallerySchema"
+			],
+			[
+				"moon",
+				"mongoose"
+			],
+			[
+				"gallery",
+				"gallerycollection"
+			],
+			[
+				"h",
+				"href	Attr"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"fon",
+				"font-weight"
+			],
+			[
+				"fo",
+				"font-weight"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"padding",
+				"padding-left"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"rep",
+				"repeat-x"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Jona/Downloads/pino",
+		"/C/Users/Jona/Downloads/gallery",
+		"/C/Users/Jona/Documents/GitHub/Misaki/routes/users.js",
+		"/C/Users/Jona/Documents/GitHub/Misaki/bin/www",
+		"/C/Users/Jona/Documents/GitHub/Misaki/db.js",
+		"/C/Users/Jona/Documents/GitHub/Misaki/routes/index.js",
+		"/C/Users/Jona/Documents/GitHub/Misaki/package.json",
+		"/C/Users/Jona/Documents/GitHub/Misaki/app.js",
+		"/C/Users/Jona/Documents/GitHub/Misaki/node_modules/mongodb/package.json",
+		"/C/Users/Jona/Documents/GitHub/Misaki/node_modules/monk/package.json",
+		"/C/Users/Jona/Documents/GitHub/Misaki/node_modules/monk/README.md",
+		"/C/Users/Jona/AppData/Roaming/Sublime Text 3/Packages/User/less2css.sublime-settings",
+		"/C/Users/Jona/Documents/GitHub/Misaki/data/misaki.0",
+		"/C/Users/Jona/Documents/GitHub/Misaki/data/misaki.ns",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5/bootstrap-3.3.5/less/grid.less",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/less/styles.less",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/stylesheets/mixins.less",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/less/bootstrap/bootstrap.less",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/stylesheets/styles.less",
+		"/C/Users/Jona/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/stylesheets/variables.less",
+		"/C/Users/Jona/AppData/Roaming/Sublime Text 3/Packages/Less2Css/less2css.sublime-settings",
+		"/C/Users/Jona/AppData/Roaming/Sublime Text 3/Installed Packages/Less2Css.sublime-package",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5/bootstrap-3.3.5/less/scaffolding.less",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/less/mixins.less",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/less/variables.less",
+		"/F/Bilder/misaki.svg",
+		"/C/Users/Jona/Downloads/Telegram Desktop/csstests.html",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5/bootstrap-3.3.5/docs/examples/navbar-static-top/index.html",
+		"/C/Users/Jona/Documents/kek.html",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5-dist/bootstrap-3.3.5-dist/css/bootstrap.css",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5-dist/bootstrap-3.3.5-dist/css/bootstrap.css.map",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5-dist/bootstrap-3.3.5-dist/js/npm.js",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5/bootstrap-3.3.5/docs/examples/navbar-fixed-top/index.html",
+		"/C/Users/Jona/Downloads/bootstrap-3.3.5/bootstrap-3.3.5/docs/index.html",
+		"/C/Users/Jona/Downloads/youtube-like-ajax-loading-bar/youtube-like-ajax-loading-bar/js/jquery.loadingbar.js",
+		"/C/Users/Jona/Downloads/nanobar-master/nanobar-master/nanobar.js",
+		"/C/Users/Jona/Downloads/nanobar-master/nanobar-master/demo.html",
+		"/C/Users/Jona/Downloads/youtube-like-ajax-loading-bar/youtube-like-ajax-loading-bar/index.html",
+		"/C/Users/Jona/Documents/GitHub/Misaki/public/stylesheets/style.css",
+		"/C/Users/Jona/Documents/my games/Tribes Ascend/TribesGame/Config/tribes.ini",
+		"/C/Users/Jona/Documents/GitHub/Misaki/views/index.jade",
+		"/C/Users/Jona/Downloads/Pururin Anti-Spam.user.js",
+		"/C/Users/Jona/Downloads/jii.json",
+		"/C/Users/Jona/Documents/GitHub/Misaki/index.html",
+		"/C/Users/Jona/Documents/GitHub/Misaki/style.css",
+		"/C/Users/Jona/Documents/GitHub/Misaki/README.md",
+		"/C/Users/Jona/Documents/my games/Tribes Ascend/TribesGame/Config/Tribes.ini",
+		"/C/Users/Jona/Documents/mal.css",
+		"/C/Users/Jona/Documents/my games/Tribes Ascend/TribesGame/Config/Tribes - Kopie.ini",
+		"/C/Program Files (x86)/Winamp/Microsoft.VC90.CRT/Microsoft.VC90.CRT.manifest",
+		"/C/Users/Jona/Downloads/winamp/vis_milk2.dll.manifest",
+		"/C/Users/Jona/Downloads/sitemap.xml",
+		"/C/Program Files (x86)/Winamp/Plugins/vis_milk2.dll",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/Users/Jona/Documents/website.html",
+		"/D/games/7.Days.To.Die.Alpha 12.2/3DMGAME.ini",
+		"/C/Users/Jona/Downloads/Birdman.2014.1080p.BluRay.x264-SPARKS[rarbg]/birdman.2014.1080p.bluray.x264-sparks.nfo",
+		"/C/Users/Jona/Downloads/Modern Warfare 2 - Bots/alterIWnet.ini",
+		"/C/Users/Jona/Downloads/Modern Warfare 2 - Bots/repziw4m.ini",
+		"/C/Users/Jona/Downloads/shimoneta/ep1.avs",
+		"/C/Users/Jona/Downloads/PixelSorting-master/PixelSorting-master/README.md",
+		"/C/Users/Jona/Downloads/animelist_1422026186_-_4414887.xml",
+		"/C/Users/Jona/Downloads/a/a  - Go to Depthy.me and make anime related images 3D t.html",
+		"/C/Users/Jona/Downloads/müll/1LIVE Schulduell_files/swfobject.js",
+		"/D/games/Battle Realms/Battle_Realms.ini",
+		"/D/games/Battle Realms/Battle_Realms(alt).ini",
+		"/C/Users/Jona/Downloads/cryptcat-nt-1.2.1/nt/farm9crypt.cpp",
+		"/C/Users/Jona/Downloads/animelist_1421872120_-_4414887.xml",
+		"/C/Users/Jona/Downloads/hambisync/conf/application.conf",
+		"/C/Users/Jona/Downloads/Illhueminate_beta_demo1.zip",
+		"/C/Users/Jona/Pictures/dontdoit.gif",
+		"/D/games/Jedi Knight - Jedi Academy/GameData/japlus/server.cfg",
+		"/C/Program Files/Sublime Text 3/changelog.txt",
+		"/D/games/Jedi Knight - Jedi Academy/GameData/japlus/jampconfig.cfg",
+		"/C/Users/Jona/Documents/minecraft_server/whitelist.json",
+		"/C/Users/Jona/Documents/minecraft_server/white-list.txt.converted",
+		"/C/Users/Jona/Downloads/pr0gramm.min.js",
+		"/C/Users/Jona/Downloads/486514.user.js",
+		"/C/Users/Jona/Downloads/pr0gramm.css",
+		"/C/Users/Jona/Documents/minecraft_server/logs/latest.log",
+		"/C/Users/Jona/Documents/minecraft_server/logs/2014-07-05-4.log.gz",
+		"/C/TribesSDK/TA_Dev/TribesGame/Logs/Launch.log",
+		"/C/Users/Jona/Documents/FTB SERVER/ForgeModLoader-server-2.log",
+		"/C/Users/Jona/Documents/FTB/Direwolf20_1_6_4/minecraft/config/OpenBlocks.cfg",
+		"/C/Users/Jona/Documents/FTB SERVER/config/OpenBlocks.cfg",
+		"/C/Users/Jona/Documents/GeZF Server/server.properties",
+		"/C/Users/Jona/Documents/minecraft_server/server.properties",
+		"/C/Users/Jona/Documents/FTB SERVER/server.properties",
+		"/C/Fraps/Movies/TribesAscend 2014-05-31 23-13-58-51.avi",
+		"/C/Users/Jona/Downloads/modpacks^Direwolf20_1_6_4^1_0_23^Direwolf20Server/config/OpenBlocks.cfg",
+		"/C/Users/Jona/Downloads/modpacks^Direwolf20_1_6_4^1_0_23^Direwolf20Server/config/OpenMods.cfg",
+		"/C/Users/Jona/Downloads/Direwolf20_1_6_4/minecraft/config/OpenBlocks.cfg",
+		"/C/Users/Jona/Downloads/modpacks^Direwolf20_1_6_4^1_0_21^Direwolf20Server/config/OpenBlocks.cfg",
+		"/C/Users/Jona/Downloads/modpacks^Direwolf20_1_6_4^1_0_21^Direwolf20Server/config/OpenPeripheralCore.cfg",
+		"/C/Users/Jona/Downloads/modpacks^Direwolf20_1_6_4^1_0_21^Direwolf20Server/config/OpenPeripheral.cfg",
+		"/C/Users/Jona/Downloads/modpacks^Direwolf20_1_6_4^1_0_21^Direwolf20Server/config/OpenMods.cfg",
+		"/C/Users/Jona/Downloads/modpacks^Direwolf20_1_6_4^1_0_21^Direwolf20Server/server.properties",
+		"/C/Users/Jona/Downloads/qwebirc-qwebirc-516de557ddc7/qwebirc-qwebirc-516de557ddc7/config.py",
+		"/C/Program Files (x86)/Steam/SteamApps/common/Tribes/TribesGame/Localization/INT/TribesGame.int",
+		"/C/Users/Jona/Desktop/test.ini",
+		"/C/Program Files (x86)/Steam/SteamApps/common/Tribes/TribesGame/Localization/INT/TribesGame - Kopie.int",
+		"/C/Users/Jona/Downloads/xhair22/Gdip.ahk",
+		"/C/Users/Jona/Downloads/xhair22/xhair2.ahk",
+		"/C/Users/Jona/Documents/my games/Tribes Ascend/TribesGame/Config/TribesInput.ini",
+		"/C/Program Files (x86)/Steam/SteamApps/common/Tribes/TribesGame/Localization/DEU/TribesGame.deu",
+		"/C/Program Files (x86)/Steam/SteamApps/common/Tribes/TribesGame/Config/DefaultGame.ini",
+		"/C/Users/Jona/AppData/Roaming/.minecraft/shaderpacks/seus-v10.1-Preview2/shaders/composite.fsh",
+		"/C/Users/Jona/Downloads/ASDFPixelSort/ASDFPixelSort/ASDFPixelSort.pde",
+		"/C/Users/Jona/AppData/Roaming/.minecraft/versions/1.6.4ML/1.6.4ML.json",
+		"/C/Users/Jona/Downloads/minecraft/server.properties"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"collection",
+			"www",
+			"bin",
+			"gallery ",
+			"gallery",
+			"\"pino\"",
+			"pino",
+			", width='250'",
+			"width='250'",
+			"title",
+			"col-xs-12.col-sm-6.col-md-3.col-lg-2",
+			"col-xs-12.col-sm-6.col-md-3.col-lg-1",
+			"col-xs-12.col-sm-6.col-md-3",
+			"col-xs-6.col-sm-3",
+			"col-xs-12.col-sm-6.col-md-3",
+			"href'",
+			"div.caption",
+			"sm-3",
+			"color4",
+			"color2",
+			"color1",
+			"href",
+			"gray",
+			"orange",
+			"pink",
+			"themacolor",
+			"green",
+			"pink",
+			"#337ab7",
+			"gardient",
+			"pink",
+			"mynano",
+			"timer",
+			"},\"",
+			"\"{",
+			"'",
+			"}",
+			"{",
+			"VM18447:22 ",
+			"VM18154:22 ",
+			"VM17837:22 ",
+			"VM17577:22 ",
+			"VM17319:22 ",
+			"VM16967:22 ",
+			"VM6967:22 ",
+			"VM16088:22 ",
+			"VM16088",
+			"VM3890:22 ",
+			"\"",
+			".swf",
+			"td",
+			"table",
+			"td",
+			"tbody",
+			"title",
+			"header",
+			"#555555",
+			"font",
+			"z-index",
+			"sqaure",
+			"Gosling",
+			"eula",
+			"sizes",
+			"788",
+			"refresh",
+			"thing",
+			"788",
+			"sfw",
+			"788",
+			"gewalt",
+			"radio",
+			"crysta",
+			"crystal",
+			"tuner",
+			"radio",
+			"warn",
+			"warni",
+			"spot",
+			"end",
+			"spot"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\"pino\" ",
+			"\"pino\"",
+			"",
+			"col-xs-6.col-sm-4.col-md-3.col-lg-2",
+			"col-xs-12.col-sm-6.col-md-3.col-lg-2",
+			"col-xs-12.col-sm-6.col-md-3.col-lg-1",
+			"col-xs-12.col-sm-6.col-md-3",
+			"href='",
+			"md-6",
+			"primaryDark",
+			"variant",
+			"primary",
+			"src",
+			"color4",
+			"color3",
+			"color2",
+			"color1",
+			"themacolor",
+			"},'",
+			"'{",
+			"\"",
+			"},\" +",
+			"\"{",
+			"",
+			"'",
+			"white",
+			"Inaban"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "package.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
