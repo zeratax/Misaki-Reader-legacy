@@ -217,10 +217,12 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-data/local.0
 *.0
-data/local.ns
 *.ns
-data/mongod.lock
-data/mongod.lock
 *.lock
+data/mongod.lock
+data/misaki.ns
+data/misaki.0
+data/local.ns
+data/local.0
+data/journal/
