@@ -8,16 +8,17 @@ block content
 				a(href='/') Home
 			li
 				a(href='#') Galleries
+			li
+				a(href='#') Contribute
 			li  
-				a.active(href='#') Contribute  
+				a.active(href='#') Edit  
 		.jumbotron
-
 			h1= title
 			div.panel.panel-primary
 				div.panel-heading
-					h3.panel-title Submit a Gallery
+					h3.panel-title Edit a Gallery
 				div.panel-body
-					form#formAddgallery(name="addgallery",method="post",action="/gallery/contribute")
+					form#formAddgallery(name="addgallery",method="put",action="/gallery/contribute/:id")
 						+input('english', 'English title')
 						+input('japanes', 'Japanese title')
 						+input('alternative', 'Alternative title')

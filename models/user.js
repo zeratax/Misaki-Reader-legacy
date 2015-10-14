@@ -6,12 +6,16 @@ var userSchema = new Schema({
     mail: { type: String, required: true, trim: true, unique: true },
     image: String,
     role: String,
-    favorites: [{
-        gallery: String,
+    favoriteg: [{
+        gallery: { type: Schema.ObjectId, ref: 'gallery' },
+        date: { type: Date, default: Date.now }
+    }],
+    favoritet: [{
+        tag: { type: Schema.ObjectId, ref: 'tag' },
         date: { type: Date, default: Date.now }
     }],
     bookmarks: [{
-        gallery: String,
+        gallery: { type: Schema.ObjectId, ref: 'gallery' },
         date: { type: Date, default: Date.now }
     }],
     hidden: Boolean,

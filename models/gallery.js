@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Comments = require('../models/comment');
 
 var gallerySchema = new Schema({
     title: [{
@@ -9,14 +8,10 @@ var gallerySchema = new Schema({
         alternative: { type: String, trim: true }
     }],
     properties: [{
-        status: String
-        artist: String,
-        circle: String,
-        parody: String,
-        scanlator: String,
-        convention: String,
-        category: String,
-        compilation: String,
+        status: [{
+            access: String,
+            owner: { type: Schema.ObjectId, ref: 'user', default: 'Anon' },
+        }]
         pages: Number,
         rating: {
             upvotes: Number,
@@ -27,7 +22,7 @@ var gallerySchema = new Schema({
     description: { type: String, max: 2000, trim: true },
     note: { type: String,  trim: true  },
     tags: [{ 
-        body: String, 
+        tag: { type: Schema.ObjectId, ref: 'tag' },
         rating: {
             upvotes: Number,
             downvotes: Number
@@ -35,8 +30,8 @@ var gallerySchema = new Schema({
         user: { type: String, default: 'Anon' }, 
         date: { type: Date, default: Date.now } 
     }],
-    comments: [Comments],
-    user: { type: String, default: 'Anon' },
+    comments: { type: Schema.ObjectId, ref: 'comment' },
+    user: { type: Schema.ObjectId, ref: 'user', default: 'Anon' },
     date: { type: Date, default: Date.now }
 });
 

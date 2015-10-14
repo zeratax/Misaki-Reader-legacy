@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Comments = require('../models/comment');
 
 var tagSchema = new Schema({
     title: [{
@@ -18,10 +17,11 @@ var tagSchema = new Schema({
         favorites: Number,
         used: Number
     }],
+    related : { type: Schema.ObjectId, ref: 'gallery' },
     description: { type: String,  trim: true  },
     note: { type: String,  trim: true  },
-    comments: [Comments],
-    user: { type: String, default: 'Anon' },
+    comments: { type: Schema.ObjectId, ref: 'comment' },
+    user: { type: Schema.ObjectId, ref: 'user', default: 'Anon' },
     date: { type: Date, default: Date.now }
 });
 

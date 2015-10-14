@@ -1,5 +1,6 @@
 routes/db.js
 data/
+package.sublime-workspace
 
 #################
 ## Eclipse
@@ -226,3 +227,6 @@ data/misaki.0
 data/local.ns
 data/local.0
 data/journal/
+data/mongod.lock
+npm-debug.log
+npm-debug.log

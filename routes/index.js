@@ -15,26 +15,24 @@ router.get('/gallery/newest', function(req, res) {
     });
 });
 
-router.get('/gallery/contribute', function(req, res) {
-    res.render('gallerycontribute', { title: 'Add New Galleries' });
+router.get('/gallery/contribute/new', function(req, res) {
+    res.render('gallerynew', { title: 'Add New Galleries' });
+});
+
+
+router.route('/gallery/edit/:id').get(function(req, res) {
+    Gallery.findOne({ _id: req.params.id}, function(e, docs) {
+        res.render('galleryedit', {
+            "galleryedit" : docs
+        });
+    });
 });
 
 /* POST to Add Gallery Service */
-router.post('/gallery/contribute', function(req, res) {
+router.post('/gallery/contribute/new', function(req, res) {
 
     // Submit to the DB
-    var newGallery = new Gallery({ "english" : req.body.english,
-        "japanese" : req.body.japanese,
-        "alternative" : req.body.alternative,
-        "artist" : req.body.artist,
-        "circle" : req.body.circle,
-        "parody" : req.body.parody,
-        "scanlator" : req.body.scanlator,
-        "convention" : req.body.convention,
-        "category" : req.body.category,
-        "compilation" : req.body.compilation,
-        "description" : req.body.description,
-        "uploader" : req.body.uploader});
+    var newGallery = new Gallery({ "uploader" : "Anon" });
 	newGallery.save(function (err, newGallery) {
         if (err) {
             // If it failed, return error
@@ -42,7 +40,7 @@ router.post('/gallery/contribute', function(req, res) {
         }
         else {
             // And forward to success page
-            res.redirect("newest");
+            res.redirect('contribute/' + newGallery._id);
         }
     });
 });
