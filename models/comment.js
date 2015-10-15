@@ -8,7 +8,7 @@ var commentSchema = new Schema({
             upvotes: Number,
             downvotes: Number
             }],
-    user: { type: Schema.ObjectId, ref: 'user', default: 'Anon' },     
+    user: { type: Schema.Types.ObjectId, ref: 'user', default: 'Anon' },     
     date: { type: Date, default: Date.now } 
 });
 

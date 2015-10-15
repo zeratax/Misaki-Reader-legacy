@@ -1,4 +1,4 @@
 mixin input(tag, title)
-	div.form-group
+	.form-group
 		label(for= 'input' + tag)= title
-		input.form-control(id= 'input' + tag, type="text", placeholder=tag, name=tag)
+		input.form-control(id= 'input' + tag, type='text', placeholder=tag, name=tag, maxlength='150')

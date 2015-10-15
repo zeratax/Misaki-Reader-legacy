@@ -1,7 +1,10 @@
 var Gallery = require('../models/gallery');
+var User = require('../models/user');
 var express = require('express');
 var router = express.Router();
 
+
+//gallery
 router.route('/gallery')
   .get(function(req, res) {
     Gallery.find(function(err, gallery) {
@@ -64,4 +67,68 @@ router.route('/gallery/:id').delete(function(req, res) {
   });
 });
 
+//user
+router.route('/user')
+  .get(function(req, res) {
+    User.find(function(err, user) {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.json(user);
+    });
+  })
+  .post(function(req, res) {
+    var user = new User(req.body);
+
+    user.save(function(err) {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.send({ message: 'User Added' });
+    });
+  });
+router.route('/user/:id').put(function(req,res){
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) {
+      return res.send(err);
+    }
+
+    for (prop in req.body) {
+      user[prop] = req.body[prop];
+    }
+
+    // save the movie
+    user.save(function(err) {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.json({ message: 'User updated!' });
+    });
+  });
+});  
+router.route('/user/:id').get(function(req, res) {
+  User.findOne({ _id: req.params.id}, function(err, user) {
+    if (err) {
+      return res.send(err);
+    }
+
+    res.json(user);
+  });
+});
+router.route('/user/:id').delete(function(req, res) {
+  User.remove({
+    _id: req.params.id
+  }, function(err, user) {
+    if (err) {
+      return res.send(err);
+    }
+
+    res.json({ message: 'User successfully deleted' });
+  });
+});
+
 module.exports = router;
+

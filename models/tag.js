@@ -17,11 +17,11 @@ var tagSchema = new Schema({
         favorites: Number,
         used: Number
     }],
-    related : { type: Schema.ObjectId, ref: 'gallery' },
+    related : { type: Schema.Types.ObjectId, ref: 'gallery' },
     description: { type: String,  trim: true  },
     note: { type: String,  trim: true  },
-    comments: { type: Schema.ObjectId, ref: 'comment' },
-    user: { type: Schema.ObjectId, ref: 'user', default: 'Anon' },
+    comments: { type: Schema.Types.ObjectId, ref: 'comment' },
+    user: { type: Schema.Types.ObjectId, ref: 'user' },
     date: { type: Date, default: Date.now }
 });
 

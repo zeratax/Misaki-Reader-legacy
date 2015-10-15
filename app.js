@@ -1,13 +1,18 @@
 var express = require( 'express' );
-var routes  = require( './routes' );
+var routes  = require('./routes');
 var users = require('./routes/users');
+var api = require('./routes/api.js');
 var http    = require( 'http' );
+var querystring = require("querystring");
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var api = require('./routes/api.js');
+var session = require('express-session')
+
+const PORT = 8080;
+const AUDIENCE = "http://localhost:" + PORT;
 
 var app = express();
 
@@ -20,13 +25,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: "This is a secret"}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 var db = require('./routes/db.js');
 
-app.use('/', routes);
 app.use('/users', users);
 app.use('/api', api);
+app.post('/auth', routes.auth(AUDIENCE));
+app.get('/logout', routes.logout);
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

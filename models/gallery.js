@@ -10,9 +10,14 @@ var gallerySchema = new Schema({
     properties: [{
         status: [{
             access: String,
-            owner: { type: Schema.ObjectId, ref: 'user', default: 'Anon' },
-        }]
-        pages: Number,
+            owner: { type: Schema.Types.ObjectId, ref: 'user'},
+        }],
+        chapters: [{
+            name: String,
+            page: Number
+        }],
+        pages: String,
+        views: String,
         rating: {
             upvotes: Number,
             downvotes: Number
@@ -22,7 +27,7 @@ var gallerySchema = new Schema({
     description: { type: String, max: 2000, trim: true },
     note: { type: String,  trim: true  },
     tags: [{ 
-        tag: { type: Schema.ObjectId, ref: 'tag' },
+        tag: { type: Schema.Types.ObjectId, ref: 'tag' },
         rating: {
             upvotes: Number,
             downvotes: Number
@@ -30,8 +35,8 @@ var gallerySchema = new Schema({
         user: { type: String, default: 'Anon' }, 
         date: { type: Date, default: Date.now } 
     }],
-    comments: { type: Schema.ObjectId, ref: 'comment' },
-    user: { type: Schema.ObjectId, ref: 'user', default: 'Anon' },
+    comments: { type: Schema.Types.ObjectId, ref: 'comment' },
+    user: { type: Schema.Types.ObjectId, ref: 'user'},
     date: { type: Date, default: Date.now }
 });
 
