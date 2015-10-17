@@ -1,0 +1,85 @@
+extends layout
+
+block content
+	.panel.panel-default
+		.panel-heading New Tag: #{title}
+		.panel-body
+			table.table.table-hover.table-bordered
+				tbody
+					tr.space
+						td(colspan='2')
+							h5 Tag Data:
+					tr
+						th Type: 
+						td
+							a(href='/tag/type/#{tagpending.properties.type}')= tagpending.properties.type
+					tr
+						th English:
+						td= tagpending.title.english
+					tr
+						th Japanese:
+						td= tagpending.title.japanese
+					tr
+						th Alternative:
+						td= tagpending.title.alternative
+					tr
+						th Description: 
+						td= tagpending.properties.description
+					tr.space
+						td(colspan='2')
+							h5 Contribution Information:
+					tr
+						th Submitted by:
+						td
+							a(href='/user/#{tagpending.user._id}', class=tagpending.user.role, title=tagpending.user.role)= tagpending.user.name
+					tr
+						th Submitted on:
+						td= tagpending.date
+					tr
+						th Published on:
+						td: tagpending.published
+					tr
+						th Status:
+						td(class='#{tagpending.status}')= tagpending.status
+					tr
+						th Rating:
+						td #{tagpending.properties.rating.upvotes} / #{tagpending.properties.rating.downvotes}
+					tr
+						th Note: 
+						td= tagpending.properties.note
+			if usermail == tagpending.user.mail
+				form#formRatetag(name="ratetag",method="POST",action="/tag/DELETE/#{tagpending._id}")
+					button.btn.btn-warning#btnDelete(type="submit") 
+								span.glyphicon.glyphicon-remove(aria-hidden="true")
+								|	Delete
+		panel.footer
+			if usermail
+				.rate Rate this post
+					br
+					.btn-group(role='group', aria-label='Rating')
+						button.btn.btn-danger.btnvote#btnDownvote(name='vote', value=-1)
+							span.glyphicon.glyphicon-thumbs-down(aria-hidden="true")
+							|	Downvote
+						button.btn.btn-success.btnvote#btnUpvote(name='vote', value=+1)
+							span.glyphicon.glyphicon-thumbs-up(aria-hidden="true")
+							|	Upvote
+						script.
+							$('.btn').click(function() {
+								$.ajax({
+									url: '/tag/contribute/rate/#{tagpending._id}',
+									type:'POST',
+									data: {
+										vote: $(this).val()
+									},
+									success: function(msg) {
+									//alert('Tag rated');
+									}
+								});
+							});
+			else
+				.rate Please
+					a#browserid(href='javascript:navigator.id.request()')  sign in
+					|	to rate
+					form(id="login-form", action="/auth", method="POST")
+						input(id="assertion-field", type="hidden", name="assertion", value="")
+						input(type="hidden", name="_csrf", value=csrf)

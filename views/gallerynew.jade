@@ -12,7 +12,7 @@ block content
 					|	Select or drop file
 			br
 			br
-			span.label.label-default#uploadFile
+			span.label.label-default#uploadNumber
 		div.row
 			output#list
 		br
@@ -21,7 +21,7 @@ block content
 	script.
 		function dragEnter(event) {
 		document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-plus'></i> drag your file(s) here~";
-		document.getElementById("uploadField").className = ("btn-success btn-lg fileUpload");
+		document.getElementById("uploadField").className = ("btn-primary btn-lg fileUpload");
 		}
 
 		function dragLeave(event) {
@@ -49,9 +49,9 @@ block content
 		// Render thumbnail.
 		var span = document.createElement('span');
 		span.innerHTML = ['<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"><a class="thumbnail" width="50"><img class="thumb" src="', e.target.result,
-		                    '" title="', escape(theFile.name), '"/></a></div>'].join('');
+		                    '" title="', escape(theFile.name), '"/><div class="caption"><span class="label label-default">' + theFile.name + '</span></div></a></div>'].join('');
 		document.getElementById('list').insertBefore(span, null);
-		document.getElementById("uploadFile").innerHTML = document.getElementsByClassName('thumb').length;
+		document.getElementById("uploadNumber").innerHTML = document.getElementsByClassName('thumb').length;
 		document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-plus'></i> Select or drop file(s)";
 		document.getElementById("uploadField").className = ("btn-info btn-lg fileUpload");
 		};

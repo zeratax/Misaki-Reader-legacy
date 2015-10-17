@@ -1,0 +1,31 @@
+extends layout
+
+block content
+	.panel.panel-default
+		.panel-heading= title
+		.panel-body
+			table.table.table-striped
+				thead
+					tr
+						th #
+						th English
+						th Japanese
+						th Category
+						th User
+						th Date
+				tbody
+					each tag, i in tagpendinglist
+						tr
+							th(scope='row') #{i}
+							td 
+								a(href='/tag/contribute/view/#{tag._id}')= tag.title.english
+							td 
+								a(href='/tag/contribute/view/#{tag._id}')= tag.title.japanese
+							td 
+								a(href='/tag/contribute/type/#{tag.properties.type}')= tag.properties.type
+							td 
+								a(href='/user/#{tag.user._id}', class=tag.user.role, title=tag.user.role)= tag.user.name
+							td= tag.date
+		.panel-footer
+			p Submit a 
+				a(href='/tag/contribute/new') new Tag

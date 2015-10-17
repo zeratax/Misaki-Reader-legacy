@@ -6,7 +6,7 @@
 				span.icon-bar
 				span.icon-bar
 				span.icon-bar
-			a.navbar-brand(href='#')
+			a.navbar-brand(href='/')
 				img(alt='brand', src='/images/misakibwl.png', height='40px')
 		.collapse.navbar-collapse
 			ul.nav.navbar-nav
@@ -15,66 +15,66 @@
 						span.caret
 					ul.dropdown-menu
 						li.active
-							a(href='#new-galleries') Newest
+							a(href='/gallery/sort/newest') Newest
 						li
-							a(href='#alphabetical-galleries') Title
+							a(href='/gallery/sort/alphabetical') Title
 						li.divider(role='seperator')
 						li
-							a(href='#popular-galleries') Popular
+							a(href='/gallery/sort/hot') Popular
 						li
-							a(href='#most-watched-galleries') Most watched
+							a(href='/gallery/sort/views') Most watched
 						li
-							a(href='#high-rated-galleries') Highest rated
+							a(href='/gallery/sort/rating') Highest rated
 						li.divider(role='seperator')
 						li
-							a(href='#contribute-galleries') Contribute
+							a(href='/gallery/contribute/list') Contribute
 				li
-					a.dropdown-toggle(href='#tags', data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') Tags
+					a.dropdown-toggle(href='#', data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') Tags
 						span.caret
 					ul.dropdown-menu
 						li
-							a(href='#all-tags') All
+							a(href='/tag/type/all') All
 						li
-							a(href='#artists-tags') Artists
+							a(href='/tag/type/artist') Artists
 						li
-							a(href='#circle-tags') Circle
+							a(href='/tag/type/circle') Circle
 						li
-							a(href='#parodies-tags') Parodies
+							a(href='/tag/type/parodies') Parodies
 						li
-							a(href='#characters-tags') Characters
+							a(href='/tag/type/character') Characters
 						li
-							a(href='#contents-tags') Contents
+							a(href='/tag/type/content') Contents
 						li
-							a(href='#scanlators-tags') Scanlators
+							a(href='/tag/type/scanlator') Scanlators
 						li
-							a(href='#conventions-tags') Conventions
+							a(href='/tag/type/convention') Conventions
 						li
-							a(href='#categories-tags') Categories
+							a(href='/tag/type/categorie') Categories
 						li
-							a(href='#collecions-tags') Collections
+							a(href='/tag/type/collection') Collections
 						li
-							a(href='#uploaders-tags') Uplaoders
+							a(href='/tag/type/uploader') Uplaoders
 						li.divider(role='seperator')
 						li
-							a(href='#contribute-tags') Contribute
+							a(href='/tag/contribute/list') Contribute
 				li
-					a.dropdown-toggle(href='#tags', data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') Account
+					a.dropdown-toggle(href='#', data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false') Account
 						span.caret
 					ul.dropdown-menu
 						li
-							a(href='#home-account') Home
+							a(href='/account/home') Home
 						li
-							a(href='#settings-account') Settings
+							a(href='/account/settings') Settings
 						li.divider(role='seperator')
 						li
-							a(href='#favorites-account') Favorites
+							a(href='/account/favorites') Favorites
 						li
-							a(href='#bookmarks-account') Bookmarks
+							a(href='/account/bookmarks') Bookmarks
 						li
-							a(href='#recommendation-account') Recommended
+							a(href='/account/recommendation') Recommended
 						li.divider(role='seperator')
 						li.loginBox
-							if user
+							if usermail
 								a#logout(href='javascript:navigator.id.logout()') Logout
 							else
 								form(id="login-form", action="/auth", method="POST")
@@ -91,9 +91,9 @@ br
 br
 br
 include breadcrumb
-if user
+if usermail
 	script.
-		var loggedInUser = '#{user}';
+		var loggedInUser = '#{usermail}';
 else
 	script.
 		var loggedInUser = null;

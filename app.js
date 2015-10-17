@@ -1,6 +1,5 @@
 var express = require( 'express' );
 var routes  = require('./routes');
-var users = require('./routes/users');
 var api = require('./routes/api.js');
 var http    = require( 'http' );
 var querystring = require("querystring");
@@ -25,12 +24,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({secret: "This is a secret"}));
+app.use(session({
+    secret: 'this_is_a_secret',
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 var db = require('./routes/db.js');
 
-app.use('/users', users);
 app.use('/api', api);
 app.post('/auth', routes.auth(AUDIENCE));
 app.get('/logout', routes.logout);

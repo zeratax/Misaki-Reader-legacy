@@ -2,35 +2,41 @@ extends layout
 
 block content
 	.jumbotron
-		div.panel.panel-primary
-			div.panel-heading
-				h3.panel-title= title
-			div.panel-body
-				form#formAddtag(name="addtag",method="put",action="/tag/contribute/new")
-					+input('english', 'English title')
-					+input('japanese', 'Japanese title')
-					+input('alternative', 'Alternative title')
-					+input('artist', 'Artist name')
-					+input('related', 'Related gallery')
-					.form-group
-						label(for='descriptiontag')= 'Description'
-						textarea.form-control(id= 'descriptiontag', type="text", placeholder='description', name='descriptiontag',maxlength='500')
-					.form-group
-						label(for='notetag')= 'Note/Flavor text'
-						textarea.form-control(id= 'notetag', type="text", placeholder='note', name='notetag',maxlength='500')
-					.form-group
-						label(for='category')= 'Category'
-						br
-						select.form-control#category
-							option Artist
-							option Circle
-							option Parody
-							option Character
-							option Content
-							option Scanlator
-							option Convention
-							option Category
-							option Collection
-					.btn-group(role='group', aria-label='Text Submit')
-						a.btn.btn-danger#btnSubmit(href='/', role="button") cancel
-						button.btn.btn-success#btnSubmit(type="submit") submit
+		if usermail
+			div.panel.panel-primary
+				div.panel-heading
+					h3.panel-title= title
+				div.panel-body
+					form#formAddtag(name="addtag",method="post",action="/tag/contribute/new")
+						+input('english', 'English title')
+						+input('japanese', 'Japanese title')
+						+input('alternative', 'Alternative title')
+						+input('related', 'Related gallery')
+						.form-group
+							label(for='description')= 'Description'
+							textarea.form-control(id= 'description', type="text", placeholder='a short description', name='description',maxlength='500')
+						.form-group
+							label(for='note')= 'Note/Flavor text'
+							textarea.form-control(id= 'note', type="text", placeholder='a short note', name='note',maxlength='500')
+						.form-group
+							label(for='type')= 'Type'
+							br
+							select.form-control#type(name='type')
+								option Artist
+								option Circle
+								option Parody
+								option Character
+								option Content
+								option Scanlator
+								option Convention
+								option Category
+								option Collection
+						.btn-group(role='group', aria-label='Text Submit')
+							a.btn.btn-danger#btnSubmit(href='/', role="button") cancel
+							button.btn.btn-success#btnSubmit(type="submit") submit
+		else
+			p Please
+				a#browserid(href='javascript:navigator.id.request()')  sign in
+				form(id="login-form", action="/auth", method="POST")
+					input(id="assertion-field", type="hidden", name="assertion", value="")
+					input(type="hidden", name="_csrf", value=csrf)
