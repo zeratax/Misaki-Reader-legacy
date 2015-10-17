@@ -9,11 +9,6 @@ var tagSchema = new Schema({
     },
     properties: {
         status: { type: String, default: 'pending', enum: ['pending', 'published'] },
-        rating: [{
-            user: { type: Schema.Types.ObjectId, ref: 'user'},
-            vote: { type: Number, min: -1, max: 1},
-            _id: false
-            }],
         type : { type: String, required: true },
         related : { type: Schema.Types.ObjectId, ref: 'gallery' },
         description: { type: String,  trim: true, max: 500 }

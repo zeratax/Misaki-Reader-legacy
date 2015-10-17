@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var suggestSchema = new Schema({
+var editSchema = new Schema({
     target: Schema.Types.ObjectId,
     content: [{
         object: String,
@@ -15,4 +15,4 @@ var suggestSchema = new Schema({
 });
 
 
-module.exports = mongoose.model('suggest', suggestSchema);
+module.exports = mongoose.model('edit', editSchema);

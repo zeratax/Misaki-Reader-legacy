@@ -1,10 +1,32 @@
 var Gallery = require('../models/gallery');
 var User = require('../models/user');
 var Tag = require('../models/tag');
+var Vote = require('../models/vote');
 var express = require('express');
 var router = express.Router();
 
+//ratings
+router.route('/votings')
+  .get(function(req, res) {
+    Vote.find(function(err, vote) {
+      if (err) {
+        return res.send(err);
+      }
 
+      res.json(vote);
+    });
+  })
+  .post(function(req, res) {
+    var vote = new Vote(req.body);
+
+    vote.save(function(err) {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.send({ message: 'Rating added' });
+    });
+  });
 //gallery
 router.route('/gallery')
   .get(function(req, res) {
