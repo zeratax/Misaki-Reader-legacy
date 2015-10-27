@@ -5,10 +5,10 @@ var gallerySchema = new Schema({
     title: {
         english: { type: String, trim: true, unique: true },
         japanese: { type: String, trim: true, unique: true },
-        alternative: { type: String, trim: true }
+        alternative: [{ type: String, trim: true }]
     },
     properties: {
-        status: { type: String, default: 'pending' },
+        status: { type: String, default: 'pending', enum: ['pending', 'published', 'rejected', 'deleted'] },
         chapters: [{
             name: String,
             page: Number,
@@ -16,10 +16,6 @@ var gallerySchema = new Schema({
         }],
         files: [{ name: String }],
         views: Number,
-        rating: {
-            upvotes: { type: Number, default: 0 },
-            downvotes: { type: Number, default: 0 }
-            },
         description: { type: String, max: 2000, trim: true }
     },
     note: { type: String,  trim: true  },

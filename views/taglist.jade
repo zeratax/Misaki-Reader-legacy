@@ -14,7 +14,7 @@ block content
 						th User
 						th Date
 				tbody
-					each tag, i in tagpendinglist
+					each tag, i in tags
 						tr
 							th(scope='row') #{i}
 							td 
@@ -22,7 +22,7 @@ block content
 							td 
 								a(href='/tag/contribute/view/#{tag._id}')= tag.title.japanese
 							td 
-								a(href='/tag/contribute/type/#{tag.properties.type}')= tag.properties.type
+								a(href='/tag/type/#{tag.properties.type}')= tag.properties.type
 							td 
 								a(href='/user/#{tag.user._id}', class=tag.user.role, title=tag.user.role)= tag.user.name
 							td= tag.date

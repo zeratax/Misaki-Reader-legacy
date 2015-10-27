@@ -6,7 +6,7 @@ var express = require('express');
 var router = express.Router();
 
 //ratings
-router.route('/votings')
+router.route('/votes')
   .get(function(req, res) {
     Vote.find(function(err, vote) {
       if (err) {

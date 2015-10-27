@@ -1,0 +1,5 @@
+p Please
+	a#browserid(href='javascript:navigator.id.request()')  sign in
+	form(id="login-form", action="/auth", method="POST")
+		input(id="assertion-field", type="hidden", name="assertion", value="")
+		input(type="hidden", name="_csrf", value=csrf)

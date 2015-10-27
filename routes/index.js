@@ -6,6 +6,10 @@ var Tag = require('../models/tag');
 var Vote = require('../models/vote');
 var verify = require('browserid-verify')();
 
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 router.auth = function (audience) {
 
   return function(req, resp){
@@ -52,6 +56,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'misaki.moe', usermail: req.session.email, csrf: req.session._csrf });
 });
 
+/* Sort galleries after :id */
 router.get('/gallery/sort/:id', function(req, res) {
     Gallery.find(function(e,docs){
         res.render('gallerylist', {
@@ -106,15 +111,13 @@ router.get('/tag/contribute/new', function(req, res) {
 router.post('/tag/contribute/new', function(req, res) {
     if ( req.session.email ) {
         User.findOne({ mail: req.session.email}, function(e, uploader) {
-
-
             // Submit to the DB
             if ( req.body.related ) {
                 var newTag = new Tag({ 
                     'title' : {
                         'english' : req.body.english,
                         'japanese' : req.body.japanese,
-                        'alternative' : req.body.alternative,
+                        'alternative' : req.body.alternative.split(','),
                     },
                     'properties' : {
                         'type' : req.body.type,
@@ -129,7 +132,7 @@ router.post('/tag/contribute/new', function(req, res) {
                     'title' : {
                         'english' : req.body.english,
                         'japanese' : req.body.japanese,
-                        'alternative' : req.body.alternative,
+                        'alternative' : req.body.alternative.split(','),
                     },
                     'properties' : {
                         'type' : req.body.type,
@@ -184,23 +187,17 @@ router.post('/tag/contribute/rate/:id/', function(req, res) {
     }
 });
 
-rating: [{
-    user: { type: Schema.Types.ObjectId, ref: 'user'},
-    vote: { type: Number, min: -1, max: 1},
-    _id: false
-    }],
-
 */
 
-router.get('/tag/contribute/list', function(req, res) {
-    Tag.find(function(err, tag) {
+router.get('/tag/contribute/list/:status', function(req, res) {
+    Tag.find({'properties.status' : req.params.status.toLowerCase()}, function(err, tag) {
         Tag.populate(tag, { 'path': 'user'}, function(e, tag) {
-                res.render('tagpendinglist', {
-                    'tagpendinglist' : tag,
-                    title: 'Pending Tag List', 
-                    usermail: req.session.email, 
-                    csrf: req.session._csrf
-                });
+            res.render('taglist', {
+                'tags' : tag,
+                title: req.params.status.toLowerCase().capitalizeFirstLetter() + ' Tag List', 
+                usermail: req.session.email, 
+                csrf: req.session._csrf
+            });
         });
     });
 });
@@ -209,63 +206,107 @@ router.get('/tag/contribute/view/:id', function(req, res) {
     Tag.findOne({ _id: req.params.id}, function(e, tag) {
         Tag.populate(tag, { 'path': 'user'}, function(e, tag) {
             Vote.find({ target: req.params.id}, function(e, vote) {
-                if ( tag ) {
-                    tagtitle = tag.title.english + ' / ' + tag.title.japanese;
-                }
-                res.render('tagpending', {
-                    'tagpending' : tag, 
-                    'votes' : vote,
-                    title: tagtitle,
-                    usermail: req.session.email, 
-                    csrf: req.session._csrf
-                });
+                User.findOne({ mail: req.session.email}, function(e, user) {
+                    if ( tag ) {
+                        tagtitle = tag.title.english + ' / ' + tag.title.japanese;
+                    }
+                    res.render('tagpending', {
+                        'tagpending' : tag, 
+                        'votes' : vote,
+                        'currentuser' : user,
+                        title: tagtitle,
+                        usermail: req.session.email, 
+                        csrf: req.session._csrf
+                    });
+                });    
             });    
         });  
     });
 });
 
-router.route('/user/:id').get(function(req, res) {
-    User.findOne({ mail: req.params.id}, function(e, docs) {
+router.get('/user/:id', function(req, res) {
+    User.findOne({ _id: req.params.id}, function(e, user) {
         res.render('userprofile', {
-            'userprofile' : docs,
+            'userprofile' : user,
             usermail: req.session.email,
             csrf: req.session._csrf
         });
     });
 });
 
-router.post('/:object/delete/:id/', function(req, res) {
+router.post('/account/settings', function(req, res) {
+    User.findOne({ mail: req.session.email }, function(e, user) {
+        if (req.session.email == user.mail) {
+            if(req.body.name == '') {
+                User.update({ mail: req.session.email }, {'name' : 'Anon'}, function(err) {
+                    if (err) {
+                     console.info(err);
+                 }else{
+                    res.redirect('/account/settings');
+                }
+            });
+            }else{
+                User.update({ mail: req.session.email }, {'name' : req.body.name}, function(err) {
+                    if (err) {
+                        console.info(err);
+                    }else{
+                        res.redirect('/account/settings');
+                    }
+                });
+            }
+        }
+    });
+});
+
+router.get('/account/settings', function(req, res) {
+    if (req.session.email) {
+        User.findOne({ mail : req.session.email }, function(e, user) {
+            res.render('usersetting', {
+                'user' : user,
+                title : 'Account settings',
+                usermail: req.session.email,
+                csrf: req.session._csrf
+            });
+        });
+    }else{
+        res.render('usersetting', {
+            title : 'Account settings',
+            usermail: req.session.email,
+            csrf: req.session._csrf
+        });
+    } 
+});
+
+router.post('/modify/:object/:id/:action/', function(req, res) {
     if ( req.session.email ) {
+        if (req.params.action == "published" || req.params.action == "rejected" || req.params.action == "deleted")
         switch (req.params.object) {
             case 'gallery':
-                Target = Gallery;
-                break;
+            Target = Gallery;
+            break;
             case 'tag':
-                Target = Tag;
-                console.info('tag selected')
-                break;
+            Target = Tag;
+            break;
             case 'user':
-                Target = User;
-                break;
+            Target = User;
+            break;
             case 'edit':
-                Target = Edit;
-                break;
+            Target = Edit;
+            break;
             default: 
-                res.send('404');
+            res.send('404');
         }
         User.findOne({ mail: req.session.email }, function(e, deleter) {
             Target.findOne({ _id: req.params.id }, function(e, target) {
-                console.info(deleter.name + ' wants to delete '+ target.title.english)
-                if(String(deleter._id) == String(target.user) && target.properties.status == "pending" || deleter.role == 'admin'){
-                    Target.remove({
-                        _id: req.params.id
-                    }, function(err, target) {
+                //check if deleter is admin/moderator/owner
+                if(String(deleter._id) == String(target.user) && target.properties.status == "pending" && req.params.action != "deleted" || deleter.role == 'moderator'  && req.params.action != "deleted" || deleter.role == 'admin'){
+                    Target.update({_id: req.params.id},{ 'properties.status' : req.params.action }, {upsert: true}, function(err) {
                         if (err) {
-                            return res.send(err);
-                        }else{
-                            res.redirect('/tag/contribute/list/');
-                        }
-                    });
+                         console.info(err);
+                     }else{
+                        res.send('successeful rejected')
+                    }
+                });
                 }else{
                     res.send('insufficient permission');
                 }
@@ -278,13 +319,15 @@ router.post('/:object/delete/:id/', function(req, res) {
 
 router.post('/vote/:id/', function(req, res) {
     if ( req.session.email ) {
-        if (req.body.vote == 0 || req.body.vote == -1 || req.body.vote == 1) {
+        if (req.body.vote == -1 || req.body.vote == 1) {
             User.findOne({ 'mail': req.session.email}, function(e, uploader) {
                 Vote.update({'user': uploader._id, 'target': req.params.id}, {'vote' : req.body.vote}, {upsert: true}, function(err) {
                     if (err) {
-                           console.info(err);
-                        }
-                });
+                     console.info(err);
+                 }else{
+                    res.send('successeful voted')
+                }
+            });
             });
         }
     }            
