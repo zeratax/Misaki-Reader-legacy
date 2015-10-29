@@ -6,14 +6,23 @@ build on <a href='http://getbootstrap.com'>bootstrap</a> with love and care by <
 
 this is very much a work in progress by an novice, 
 but it's a fun project and I hope it'll become somewhat useful to you.
-###Usage
-If you want to play around with this simply perform following commands in the repository
+
+###Setting up
+Just install the npm package or any equivalent on your system then using
+your newly installed npm install the express framework:
+```
+npm install express --save
+```
+
+Then do the usual
 
 ```
 npm install
 npm start
 ```
 
+
+###Tweaks
 if you want to use the login by persona, you have to change
 
 ```javascript
