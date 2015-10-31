@@ -423,8 +423,9 @@ router.get('/account/settings', function(req, res) {
 
 router.post('/modify/:object/:id/:action/', function(req, res) {
     var currentdate = new Date().toISOString()
+    var Target;
     if ( req.session.email ) {
-        if (req.params.action == "published" || req.params.action == "rejected" || req.params.action == "deleted")
+        if (req.params.action == "published" || req.params.action == "rejected" || req.params.action == "deleted" || req.params.action == "edit") {
             switch (req.params.object) {
                 case 'gallery':
                 Target = Gallery;
@@ -437,6 +438,7 @@ router.post('/modify/:object/:id/:action/', function(req, res) {
                 break;
                 default: 
                 res.status(404).send('404');
+                next();
             }
             User.findOne({ mail: req.session.email }, function(e, deleter) {
                 Target.findOne({ _id: req.params.id }, function(e, target) {
@@ -456,11 +458,12 @@ router.post('/modify/:object/:id/:action/', function(req, res) {
                         }
                 }
             });
-            });    
-        }else{
-            res.status(500).send('You need to sign in to delete');
-        }    
-    });
+            });  
+        }  
+    }else{
+        res.status(500).send('You need to sign in to delete');
+    }    
+});
 
 router.post('/vote/:id/', function(req, res) {
     if ( req.session.email ) {
