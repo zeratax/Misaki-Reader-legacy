@@ -22,17 +22,17 @@ body {
     position: relative;
     overflow: hidden;
     margin: 10px;
-	input.upload {
-	    position: absolute;
-	    top: 0;
-	    right: 0;
-	    margin: 0;
-	    padding: 0;
-	    font-size: 300px;
-	    cursor: pointer;
-	    opacity: 0;
-	    filter: alpha(opacity=0);
-    }
+	form {
+		    position: absolute;
+		    top: -50px;
+		    left: -60vh;
+		    margin: 0;
+		    padding: 0;
+		    font-size: 100px;
+		    cursor: pointer;
+		    opacity: 0;
+		    filter: alpha(opacity=0);
+	}
 }
 
 .persona-button.dark span:before{
@@ -61,29 +61,63 @@ body {
 }
 
 #browserid {
-	color: @brand-success;
+	//color: @brand-success;
 }
 
 .admin {
 	color: @brand-danger;
+	a {
+		color: @brand-danger;
+	}
 }
 
 .moderator {
 	color: @brand-info;
+	a {
+		color: @brand-info;
+	}
 }
 
 .user {
 	color: @brand-warning;
+	a {
+		color: @brand-warning;
+	}
 }
 
 .pending {
 	color: @brand-info;
+	a {
+		color: @brand-info;
+	}
+}
+
+.edit {
+	color: @brand-info;
+	a {
+		color: @brand-info;
+	}
 }
 
 .rejected {
 	color: @brand-danger;
+	a {
+		color: @brand-danger;
+	}
 }
 
 .published {
 	color: @brand-success;
+	a {
+		color: @brand-success;
+	}
+}
+
+span {
+	a{
+		color: white;
+		&:hover {
+			color: white;
+		}
+	}
 }

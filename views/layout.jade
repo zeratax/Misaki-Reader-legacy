@@ -45,7 +45,7 @@ html
 	body
 		// Bootstrap core JavaScript
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
-		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous")
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js' integrity='sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==' crossorigin='anonymous')
 		//script(src='/javascripts/jquery.loadingbar.min.js')
 		script(src='https://login.persona.org/include.js')
 		script(src='/javascripts/persona.js')
@@ -53,11 +53,10 @@ html
 		include mixins
 		include navbar
 		.container
-			.col-xs-12.col-md-8
+			.col-xs-12.col-md-9
 				block content
-			.col-xs-12.col-md-4
-				.jumbotron
-					p= usermail
+			.col-xs-12.col-md-3
+				include sidebar
 		include footer
 		
 

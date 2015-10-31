@@ -8,10 +8,10 @@ block content
 					h3.panel-title= title
 				div.panel-body
 					form#formAddtag(name="addtag",method="post",action="/tag/contribute/new")
-						+input('english', 'English title')
-						+input('japanese', 'Japanese title')
-						+input('alternative', 'Alternative title')
-						+input('related', 'Related gallery')
+						+input('english', 'English title', 50)
+						+input('japanese', 'Japanese title', 50)
+						+input('alternative', 'Alternative title', 50)
+						+input('related', 'Related gallery', 200)
 						.form-group
 							label(for='description')= 'Description'
 							textarea.form-control(id= 'description', type="text", placeholder='a short description', name='description',maxlength='500')

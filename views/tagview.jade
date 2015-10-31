@@ -1,0 +1,124 @@
+extends layout
+
+block content
+	.panel.panel-default
+		if tag			
+			if tag.properties.status != 'deleted'
+				.panel-heading New Tag: #{title}
+				.panel-body
+					table.table.table-hover.table-bordered
+						tbody
+							tr.space
+								td(colspan='2')
+									h5 Tag Data:
+							tr
+								th Type: 
+								td
+									a(href='/tag/type/#{tag.properties.type}')= tag.properties.type
+							tr
+								th English:
+								td= tag.title.english
+							tr
+								th Japanese:
+								td= tag.title.japanese
+							tr
+								th Alternative:
+								td= tag.title.alternative
+							tr
+								th Description: 
+								td= tag.properties.description
+							tr.space
+								td(colspan='2')
+									h5 Contribution Information:
+							tr
+								th Submitted by:
+								td
+									a(href='/user/#{tag.user._id}', class=tag.user.role, title=tag.user.role)= tag.user.name
+							tr
+								th Submitted on:
+								td #{prettyDate(tag.date)}
+							tr
+								th Published on:
+								td#published #{prettyDate(tag.published)}
+							tr
+								th Status:
+								td#status(class='#{tag.properties.status}')= tag.properties.status
+							tr
+								th Points:
+								td#points #{votes.reduce(function(total, vote) { return total + vote.vote; }, 0)} from #{votes.length} votes
+							tr
+								th Note:
+								td= tag.note
+					if usermail
+						if tag.properties.status == 'pending' || currentuser.role == 'admin'
+							.jumbotron
+								h4 Moderate this post
+								.btn-group(role='group', aria-label='moderating')
+									if currentuser.role == 'admin'
+										button.btn.btn-danger.btnmodify#btnDelete(name='deletetag', value='deleted', type='button') 
+											span.glyphicon.glyphicon-trash(aria-hidden='true')
+											|	Delete
+									if usermail == tag.user.mail || currentuser.role == 'admin' || currentuser.role == 'moderator'
+										button.btn.btn-warning.btnmodify#btnReject(name='rejecttag', value='rejected', type='button')
+											span.glyphicon.glyphicon-remove(aria-hidden='true')
+											|	Reject
+										button.btn.btn-info.btnmodify#btnEdit(name='editgallery', value='edit', type='button')
+											span.glyphicon.glyphicon-edit(aria-hidden='true')
+											|	Editing needed
+									if currentuser.role == 'admin' || currentuser.role == 'moderator'
+										button.btn.btn-success.btnmodify#btnPublish(name='publishtag', value='published', type='button')
+											span.glyphicon.glyphicon-ok(aria-hidden='true')
+											|	Publish
+							script.
+								$('.btnmodify').click(function() {
+									$.ajax({
+										url: '/modify/tag/#{tag._id}/' + $(this).val(),
+										type:'POST',
+										success: function(msg) {
+										$('#status').load('/tag/contribute/view/#{tag._id} #status');
+										$('#published').load('/tag/contribute/view/#{tag._id} #published');
+										$('html, body').animate({
+									    	scrollTop: $('#published').offset().top
+										}, 500);
+										}
+									});
+								});
+				panel.footer
+					if usermail
+							h4 Rate this post
+							.rate
+								.btn-group(role='group', aria-label='Rating')
+									button.btn.btn-danger.btnvote#btnDownvote(name='vote', value=-1)
+										span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
+										|	Downvote
+									button.btn.btn-success.btnvote#btnUpvote(name='vote', value=+1)
+										span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
+										|	Upvote
+								script.
+									$('.btnvote').click(function() {
+										$.ajax({
+											url: '/vote/#{tag._id}',
+											type:'POST',
+											data: {
+												vote: $(this).val()
+											},
+											success: function(msg) {
+											//alert('Tag rated');
+											$('#points').load('/tag/contribute/view/#{tag._id} #points');
+											$('html, body').animate({
+										    	scrollTop: $('#points').offset().top
+											}, 500);
+											}
+										});
+									});
+					else
+						.rate Please
+							a#browserid(href='javascript:navigator.id.request()')  sign in
+							|	to rate
+							form(id='login-form', action='/auth', method='POST')
+								input(id='assertion-field', type='hidden', name='assertion', value='')
+								input(type='hidden', name='_csrf', value=csrf)
+			else
+				.panel-heading= title
+		else
+			.panel-heading= title

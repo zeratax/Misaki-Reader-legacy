@@ -1,0 +1,31 @@
+extends layout
+
+block content
+	.panel.panel-default
+		.panel-heading= title
+		.panel-body
+			table.table.table-striped
+				thead
+					tr
+						th #
+						th English
+						th Japanese
+						th Category
+						th User
+						th Date
+				tbody
+					each object, i in objects
+						tr(id=object._id)
+							th(scope='row') #{i}
+							td 
+								a(href='/#{objectname}/contribute/view/#{object._id}')= object.title.english
+							td 
+								a(href='/#{objectname}/contribute/view/#{object._id}')= object.title.japanese
+							td 
+								a(href='/#{objectname}/type/#{object.properties.type}')= object.properties.type
+							td 
+								a(href='/user/#{object.user._id}', class=object.user.role, title=object.user.role)= object.user.name
+							td #{prettyDate(object.date)}
+		.panel-footer
+			p Submit a 
+				a(href='/#{objectname}/contribute/new') new #{objectname}!

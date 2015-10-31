@@ -16,6 +16,8 @@
     "mongodb": "~2.0.45",
     "mongoose": "~4.1.11",
     "express-session": "~1.11.3",
-    "browserid-verify": "0.1.x"
+    "browserid-verify": "0.1.x",
+    "fs-extra" : "0.26.0",
+    "formidable" : "1.0.17"
   }
 }

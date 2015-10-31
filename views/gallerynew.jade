@@ -4,33 +4,99 @@ block content
 	.jumbotron
 		h1= title
 		br
-		.text-center
-			btn.btn-info.btn-lg.fileUpload#uploadField
-				input.upload#uploadBtn(type='file', name='files[]', multiple)(ondragenter="dragEnter(event)" ondragleave="dragLeave(event)")
-				span#uploadSpn
-					i.glyphicon.glyphicon-plus
-					|	Select or drop file
+		if usermail
+			.text-center
+				btn.btn-info.btn-lg.fileUpload#uploadField
+					form#uploadForm(method='post', action='/upload', enctype='multipart/form-data')
+						input#uploadInput(type='file', name='file', multiple, ondragenter='dragEnter(event)' ondragleave='dragLeave(event)')
+					span#uploadSpn
+						i.glyphicon.glyphicon-upload
+						|	Select or drop file
+				br
+				br
+				h4
+					span.label.label-default#uploadNumber
+					span.label.label-default#uploadSize
+			br
+			div.row#list
+			br
+			.text-center
+				button.hidden#btnSubmit(type='submit')
+					span.glyphicon.glyphicon-ok(aria-hidden='true')
+					|	Submit
 			br
 			br
-			span.label.label-default#uploadNumber
-		div.row
-			output#list
-		br
-		div.progress
-			div.progress-bar.progress-bar-info#uploadbar(role='progressbar', aria-valuenow='60', aria-valuemin='0', aria-valuemax='100', style='width: 60%;')
+			.progress
+				.hidden.progress-bar.progress-bar-info#uploadbar(role='progressbar', aria-valuemin='0', aria-valuemax='100', style='width: 30%;')
+		else
+			include signin
 	script.
+		var filesize = 0;
+
+		var _submit = document.getElementById('btnSubmit'), 
+		_file = document.getElementById('uploadInput'), 
+		_progress = document.getElementById('uploadbar');
+
+		var upload = function(){
+		_progress.className = ('progress-bar progress-bar-info');
+		if(_file.files.length === 0){
+		return;
+		}
+
+		var data = new FormData();
+		for (var i = _file.files.length - 1; i >= 0; i--) {
+		data.append('SelectedFile', _file.files[i]);
+		}
+
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function(){
+		if(request.readyState == 4){
+			if (request.status === 200) {  
+				try {
+				var resp = JSON.parse(request.response);
+				} catch (e){
+				var resp = {
+				status: 'success',
+				data: '[' + request.responseText + ']'
+				};
+				}
+				console.log(resp.status + ': ' + resp.data);
+				window.location.replace(request.responseText);
+				}else{
+				var resp = {
+				status: 'error',
+				data: '[' + request.responseText + ']'
+				};
+				alert(resp.status + ': ' + resp.data);
+				}
+		}
+		};
+
+		request.upload.addEventListener('progress', function(e){
+		_progress.style.width = Math.ceil(e.loaded/e.total) * 100 + '%';
+		}, false);
+
+		request.open('POST', '/upload');
+		request.send(data);
+		}
+
+		_submit.addEventListener('click', upload);
+
 		function dragEnter(event) {
-		document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-plus'></i> drag your file(s) here~";
-		document.getElementById("uploadField").className = ("btn-primary btn-lg fileUpload");
+			document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-upload'></i> drag your file(s) here~";
+			document.getElementById("uploadField").className = ("btn-success btn-lg fileUpload");
 		}
 
 		function dragLeave(event) {
-		document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-plus'></i> Select or drop file(s)";
-		document.getElementById("uploadField").className = ("btn-info btn-lg fileUpload");
+			document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-upload'></i> Select or drop file(s)";
+			document.getElementById("uploadField").className = ("btn-info btn-lg fileUpload");
 		}
-		document.getElementById("uploadBtn").onchange = function () {
-		//---
+
+		document.getElementById("uploadInput").onchange = function () {
+		document.getElementById("list").innerHTML = '';
+		filesize = 0;
 		};
+
 		function handleFileSelect(evt) {
 		var files = evt.target.files; // FileList object
 
@@ -38,28 +104,48 @@ block content
 		for (var i = 0, f; f = files[i]; i++) {
 		// Only process image files.
 		if (!f.type.match('image.*')) {
+		document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-upload'></i> Select or drop file(s)";
+		document.getElementById("uploadField").className = ("btn-info btn-lg fileUpload");
 		continue;
 		}
 
 		var reader = new FileReader();
+		filesize += files[i].size
 
 		// Closure to capture the file information.
 		reader.onload = (function(theFile) {
 		return function(e) {
 		// Render thumbnail.
-		var span = document.createElement('span');
-		span.innerHTML = ['<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"><a class="thumbnail" width="50"><img class="thumb" src="', e.target.result,
-		                    '" title="', escape(theFile.name), '"/><div class="caption"><span class="label label-default">' + theFile.name + '</span></div></a></div>'].join('');
-		document.getElementById('list').insertBefore(span, null);
-		document.getElementById("uploadNumber").innerHTML = document.getElementsByClassName('thumb').length;
-		document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-plus'></i> Select or drop file(s)";
+
+		/*
+		var div = document.createElement('div');
+		div.innerHTML = ['<h6>' +  theFile.name + '</h6><a class="thumbnail" width="50"><img class="thumb" src="', e.target.result, '" title="', escape(theFile.name), '"/></a></div>'].join('');
+		div.className = ("col-xs-6 col-sm-4 col-md-3 col-lg-2");
+		document.getElementById('list').insertBefore(div, null);
+		*/
+		document.getElementById("uploadSpn").innerHTML = "<i class='glyphicon glyphicon-upload'></i> Select or drop file(s)";
 		document.getElementById("uploadField").className = ("btn-info btn-lg fileUpload");
+		document.getElementById("btnSubmit").className = ("btn btn-success visible");
+		document.getElementById("uploadNumber").innerHTML = i + ' Images';
+		document.getElementById("uploadSize").innerHTML = (filesize / 1048576).toFixed(2) + ' Megabytes';
+
+		/*
+		jQuery("#list > div").sort(function(a, b) {
+		var upA = jQuery('> h6', a).text().toUpperCase();
+		var upB = jQuery('> h6', b).text().toUpperCase();
+		return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+		}).appendTo('#list');
+		*/
+
 		};
 		})(f);
 
 		// Read in the image file as a data URL.
 		reader.readAsDataURL(f);
+
+		
+
 		}
 		}
 
-		document.getElementById('uploadBtn').addEventListener('change', handleFileSelect, false);
+		document.getElementById('uploadInput').addEventListener('change', handleFileSelect, false); 

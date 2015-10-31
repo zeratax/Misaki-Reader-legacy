@@ -2,4 +2,8 @@ extends layout
 
 block content
 	.jumbotron
-		h1 #{userprofile.name}
+		if userprofile
+			h2 #{userprofile.name}
+			h3(class=userprofile.role) #{userprofile.role}
+		else
+			h2 User not found

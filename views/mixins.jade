@@ -1,4 +1,14 @@
-mixin input(tag, title)
+mixin input(tag, title, max, fill)
 	.form-group
 		label(for= 'input' + tag)= title
-		input.form-control(id= 'input' + tag, type='text', placeholder=tag, name=tag, maxlength='150')
+		input.form-control(id= 'input' + tag, type='text', placeholder=tag, name=tag, value=fill ,maxlength=max)
+-function prettyDate(dateString){
+	-var date = dateString;
+	-if (date) {
+	-var d = dateString.getDate();
+	-var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+	-var m = monthNames[date.getMonth()];
+	-var y = date.getFullYear();
+	-return d+' '+m+' '+y;
+	-}
+-}

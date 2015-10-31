@@ -7,12 +7,12 @@ block content
 					div.panel-heading
 						h3.panel-title= title
 					div.panel-body
-						form#formAddtag(name="setUser",method="post",action="/account/settings")
+						form#formAddtag(name='setUser',method='post',action='/account/settings')
 							.form-group
 								label(for='name') Username:
-								input.form-control(id='name', type='text', placeholder=user.name, name='name', maxlength='150')
+								input.form-control(id='name', type='text', placeholder='new user name', name='name', value=user.name, maxlength='150')
 							.btn-group(role='group', aria-label='Text Submit')
-								a.btn.btn-danger#btnSubmit(href='/', role="button") cancel
-								button.btn.btn-success#btnSubmit(type="submit") submit
+								a.btn.btn-danger#btnSubmit(href='/', role='button') cancel
+								button.btn.btn-success#btnSubmit(type='submit') submit
 		else
 			include signin
