@@ -9,7 +9,7 @@ var editSchema = new Schema({
     }],
     note: { type: String,  trim: true, max: 500 },
     user: { type: Schema.Types.ObjectId, ref: 'user', required: true },
-    slug: String,
+    number: Number,
     published: { type: Date },
     date: { type: Date, default: Date.now }
 });

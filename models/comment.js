@@ -6,7 +6,7 @@ var commentSchema = new Schema({
     status: { type: String, default: 'pending', enum: ['pending', 'published', 'rejected', 'deleted'] },
 	parent_id: Schema.Types.ObjectId,
     body: { type: String, max: 2000, trim: true }, 
-    slug: String,
+    number: Number,
     rating: {
             upvotes: { type: Number, default: 0 },
             downvotes: { type: Number, default: 0 }

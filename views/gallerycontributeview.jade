@@ -1,0 +1,140 @@
+extends layout
+
+block content
+	.panel.panel-primary
+		if gallery			
+			if gallery.properties.status != 'deleted' && gallery.properties.status != 'edit'
+				.panel-heading New Gallery: #{title} 
+					if gallery.properties.status == 'pending' && usermail == gallery.user.mail
+						a.btn.btn-info(href='/gallery/contribute/edit/#{gallery.number}')
+							span.glyphicon.glyphicon-edit(aria-hidden='true')
+							|	Edit
+				.panel-body
+					table.table.table-hover.table-bordered
+						tr.space
+								td(colspan='2')
+									h5 Gallery Data:
+							tr
+								th English:
+								td= gallery.title.english
+							tr
+								th Japanese:
+								td= gallery.title.japanese
+							tr
+								th Alternative:
+								td= gallery.title.alternative
+							tr
+								th Description: 
+								td= gallery.properties.description
+							tr
+								th Tags:
+								td
+									each tag in gallery.tags
+										a.label.label-default(href='/tag/view/#{tag.tag.number}', data-toggle='tooltip', data-placement='top', title=tag.tag.properties.description) #{tag.tag.title.english}/#{tag.tag.title.japanese}
+										a 
+						tr.space
+								td(colspan='2')
+									h5 Contribution Information:
+							tr
+								th Submitted by:
+								td
+									a(href='/user/#{gallery.user.number}', class=gallery.user.role, title=gallery.user.role)= gallery.user.name
+							tr
+								th Submitted on:
+								td #{prettyDate(gallery.date)}
+							tr
+								th Published on:
+								td#published #{prettyDate(gallery.published)}
+							tr
+								th Status:
+								td#status(class='#{gallery.properties.status}')
+									a(href='/gallery/contribute/list/#{gallery.properties.status}')= gallery.properties.status
+							tr
+								th Points:
+								td#points 
+									span.badge #{votes.reduce(function(total, vote) { return total + vote.vote; }, 0)}
+							tr
+								th Note:
+								td= gallery.note
+					a.thumbnail(href='/uploads/#{gallery.number}/0.png')
+						img(src='/uploads/#{gallery.number}/0.png', alt='cover')
+				if usermail
+						if gallery.properties.status == 'pending' || currentuser.role == 'admin'
+							.jumbotron
+								h4 Moderate this post
+								.btn-group(role='group', aria-label='moderating') 
+									if currentuser.role == 'admin'
+										button.btn.btn-danger.btnmodify#btnDelete(name='deletegallery', value='deleted', type='button') 
+											span.glyphicon.glyphicon-trash(aria-hidden='true')
+											|	Delete
+									if usermail == gallery.user.mail || currentuser.role == 'admin' || currentuser.role == 'moderator'
+										button.btn.btn-warning.btnmodify#btnReject(name='rejectgallery', value='rejected', type='button')
+											span.glyphicon.glyphicon-remove(aria-hidden='true')
+											|	Reject
+										button.btn.btn-info.btnmodify#btnEdit(name='editgallery', value='edit', type='button')
+											span.glyphicon.glyphicon-edit(aria-hidden='true')
+											|	Editing needed
+									if currentuser.role == 'admin' || currentuser.role == 'moderator'
+										button.btn.btn-success.btnmodify#btnPublish(name='publishgallery', value='published', type='button')
+											span.glyphicon.glyphicon-ok(aria-hidden='true')
+											|	Publish
+							script.
+								$('.btnmodify').click(function() {
+									$.ajax({
+										url: '/modify/gallery/#{gallery._id}/' + $(this).val(),
+										type:'POST',
+										success: function(msg) {
+										$('#status').load('/gallery/contribute/view/#{gallery.number} #status');
+										$('#published').load('/gallery/contribute/view/#{gallery.number} #published');
+										$('html, body').animate({
+									    	scrollTop: $('#published').offset().top
+										}, 500);
+										}
+									});
+								});
+				panel.footer
+					if usermail
+						h4 Rate this post
+						.rate
+							.btn-group(role='group', aria-label='Rating')
+								button.btn.btn-danger.btnvote#btnDownvote(name='vote', value=-1)
+									span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
+									|	Downvote
+								button.btn.btn-success.btnvote#btnUpvote(name='vote', value=+1)
+									span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
+									|	Upvote
+							script.
+								$('.btnvote').click(function() {
+									$.ajax({
+										url: '/vote/#{gallery._id}',
+										type:'POST',
+										data: {
+											vote: $(this).val()
+										},
+										success: function(msg) {
+										//alert('gallery rated');
+										$('#points').load('/gallery/contribute/view/#{gallery.number} #points');
+										$('html, body').animate({
+									    	scrollTop: $('#points').offset().top
+										}, 500);
+										}
+									});
+								});
+					else
+						.rate Please
+							a#browserid(href='javascript:navigator.id.request()')  sign in
+							|	to rate
+							form(id='login-form', action='/auth', method='POST')
+								input(id='assertion-field', type='hidden', name='assertion', value='')
+								input(type='hidden', name='_csrf', value=csrf)
+					script.
+						$(function () {
+						$('[data-toggle="tooltip"]').tooltip()
+						})
+			else
+				.panel-heading 
+					h5	#{title} 
+						small has been deleted or is still in editing
+		else
+			.panel-heading 
+				h5 tag not found

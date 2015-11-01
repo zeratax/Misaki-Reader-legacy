@@ -100,6 +100,13 @@ body {
 }
 
 .rejected {
+	color: @brand-warning;
+	a {
+		color: @brand-warning;
+	}
+}
+
+.deleted {
 	color: @brand-danger;
 	a {
 		color: @brand-danger;
@@ -119,5 +126,11 @@ span {
 		&:hover {
 			color: white;
 		}
+	}
+}
+
+tbody {
+	tr {
+		overflow: hidden;
 	}
 }

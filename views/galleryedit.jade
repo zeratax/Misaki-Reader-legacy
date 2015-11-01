@@ -3,28 +3,31 @@ extends layout
 block content
 	.jumbotron
 		div.panel.panel-primary
-			if gallery
-				if gallery.properties.status != 'deleted' && gallery.properties.status != 'published' && gallery.properties.status != 'rejected'
-					div.panel-heading
-						h3.panel-title= title
-					div.panel-body
-						form#formAddgallery(name='addgallery',method='POST',action='/gallery/contribute/edit/#{gallery._id}')
-							+input('english', 'English title', 50, gallery.title.english)
-							+input('japanese', 'Japanese title', 50, gallery.title.japanese)
-							+input('alternative', 'Alternative title', 50) 
-							-i = ''
-							each tags in gallery.tags
-								-i += ',' + tags.tag.title.english
-							+input('tags', 'Tags', 2000, i)
-							div.btn-group
-								a.btn.btn-danger#btnCancel cancel
-								button.btn.btn-success#btnSubmit(type='submit') submit
-				else
-					.panel-heading=title
+			if gallery.properties.status != 'deleted' && gallery.properties.status != 'published' && gallery.properties.status != 'rejected'
+				div.panel-heading
+					h3.panel-title Edit #{title}
+				div.panel-body
+					form#formEditgallery(name='editgallery',method='POST',action='/gallery/contribute/edit/#{gallery._id}')
+						+input('english', 'English title', 50, gallery.title.english)
+						+input('japanese', 'Japanese title', 50, gallery.title.japanese)
+						+input('alternative', 'Alternative title', 50)
+						.form-group
+							label(for='description')= 'Description'
+							textarea.form-control(id= 'description', type="text", placeholder='a short description', name='description',maxlength='500')
+						.form-group
+							label(for='note')= 'Note/Flavor text'
+							textarea.form-control(id= 'note', type="text", placeholder='a short note', name='note',maxlength='500')
+						-i = ''
+						each tags in gallery.tags
+							-i += ',' + tags.tag.number
+						+input('tags', 'Tags', 2000, i)
+						div.btn-group
+							a.btn.btn-danger#btnDelete delete
+							button.btn.btn-success#btnSubmit(type='submit') submit
 			else
 				.panel-heading=title
 	script.
-		$('#btnCancel').click(function() {
+		$('#btnDelete').click(function() {
 			$.ajax({
 				url: '/modify/gallery/#{gallery._id}/deleted',
 				type:'POST',

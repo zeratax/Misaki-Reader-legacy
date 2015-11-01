@@ -33,7 +33,7 @@ var userSchema = new Schema({
         tags: { type: Number, default: 0 },
         comments: { type: Number, default: 0 }
     },
-    slug: String,
+    number: Number,
     date: { type: Date, default: Date.now }
 });
 

@@ -1,206 +1,63 @@
 extends layout
 
 block content
-	.panel.panel-default
+	.panel.panel-primary
 		if gallery			
-			if gallery.properties.status != 'deleted' || gallery.properties.status != 'edit'
-				.panel-heading New Gallery: #{title} 
-					if gallery.properties.status == 'pending' && usermail == gallery.user.mail
-						span.label.label-info
-							a(href='/gallery/contribute/edit/#{gallery._id}') Edit 
-				.panel-body
-					table.table.table-hover.table-bordered
-						tr.space
-								td(colspan='2')
-									h5 Gallery Data:
-							tr
-								th English:
-								td= gallery.title.english
-							tr
-								th Japanese:
-								td= gallery.title.japanese
-							tr
-								th Alternative:
-								td= gallery.title.alternative
-							tr
-								th Description: 
-								td= gallery.properties.description
-							tr
-								th Tags:
-								td
-									each tag in gallery.tags
-										a.label.label-default(class=tag.tag.properties.status, href='/tag/view/#{tag.tag._id}', data-toggle='tooltip', data-placement='top', title=tag.tag.properties.description) #{tag.tag.title.english}/#{tag.tag.title.japanese}
-										a 
-						tr.space
-								td(colspan='2')
-									h5 Contribution Information:
-							tr
-								th Submitted by:
-								td
-									a(href='/user/#{gallery.user._id}', class=gallery.user.role, title=gallery.user.role)= gallery.user.name
-							tr
-								th Submitted on:
-								td #{prettyDate(gallery.date)}
-							tr
-								th Published on:
-								td#published #{prettyDate(gallery.published)}
-							tr
-								th Status:
-								td#status(class='#{gallery.properties.status}')
-									a(href='/gallery/contribute/list/#{gallery.properties.status}')= gallery.properties.status
-							tr
-								th Points:
-								td#points 
-									span.badge #{votes.reduce(function(total, vote) { return total + vote.vote; }, 0)}
-							tr
-								th Note:
-								td= gallery.note
+			if gallery.properties.status == 'published'
+				.panel-heading
+					h3 Gallery: #{title} 
 				.carousel.slide#carousel-gallery(data-ride='carousel', data-keyboard='true', data-intervall='false')
-					//ol(class='carousel-indicators')
-						li.active(data-target='#carousel-gallery' data-slide-to='0')
-						- var i = 1
-							while i < gallery.properties.pages
-								li(data-target='#carousel-gallery' data-slide-to=i++)
-					.carousel-inner(role='listbox')
-						.item.active(data-url='/gallery/view/#{gallery._id}/0', data-slide-number='0')
-						- var x = 1
-							while x < gallery.properties.pages
-								.item(data-url='/gallery/view/#{gallery._id}/#{x}', , data-slide-number=x)
-								-x++
-					a.left.carousel-control(href='#carousel-gallery', role='button', data-slide='prev')
-						span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
-						span.sr-only Previous
-					a.right.carousel-control(href='#carousel-gallery', role='button', data-slide='next')
-						span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-						span.sr-only Next
-				if usermail
-						if gallery.properties.status == 'pending' || currentuser.role == 'admin'
-							.jumbotron
-								h4 Moderate this post
-								.btn-group(role='group', aria-label='moderating') 
-									if currentuser.role == 'admin'
-										button.btn.btn-danger.btnmodify#btnDelete(name='deletegallery', value='deleted', type='button') 
-											span.glyphicon.glyphicon-trash(aria-hidden='true')
-											|	Delete
-									if usermail == gallery.user.mail || currentuser.role == 'admin' || currentuser.role == 'moderator'
-										button.btn.btn-warning.btnmodify#btnReject(name='rejectgallery', value='rejected', type='button')
-											span.glyphicon.glyphicon-remove(aria-hidden='true')
-											|	Reject
-										button.btn.btn-info.btnmodify#btnEdit(name='editgallery', value='edit', type='button')
-											span.glyphicon.glyphicon-edit(aria-hidden='true')
-											|	Editing needed
-									if currentuser.role == 'admin' || currentuser.role == 'moderator'
-										button.btn.btn-success.btnmodify#btnPublish(name='publishgallery', value='published', type='button')
-											span.glyphicon.glyphicon-ok(aria-hidden='true')
-											|	Publish
-							script.
-								$('.btnmodify').click(function() {
-									$.ajax({
-										url: '/modify/gallery/#{gallery._id}/' + $(this).val(),
-										type:'POST',
-										success: function(msg) {
-										$('#status').load('/gallery/contribute/view/#{gallery._id} #status');
-										$('#published').load('/gallery/contribute/view/#{gallery._id} #published');
-										$('html, body').animate({
-									    	scrollTop: $('#published').offset().top
-										}, 500);
-										}
-									});
-								});
-				panel.footer
-					if usermail
-						h4 Rate this post
-						.rate
-							.btn-group(role='group', aria-label='Rating')
-								button.btn.btn-danger.btnvote#btnDownvote(name='vote', value=-1)
-									span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
-									|	Downvote
-								button.btn.btn-success.btnvote#btnUpvote(name='vote', value=+1)
-									span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
-									|	Upvote
-							script.
-								$('.btnvote').click(function() {
-									$.ajax({
-										url: '/vote/#{gallery._id}',
-										type:'POST',
-										data: {
-											vote: $(this).val()
-										},
-										success: function(msg) {
-										//alert('gallery rated');
-										$('#points').load('/gallery/contribute/view/#{gallery._id} #points');
-										$('html, body').animate({
-									    	scrollTop: $('#points').offset().top
-										}, 500);
-										}
-									});
-								});
-					else
-						.rate Please
-							a#browserid(href='javascript:navigator.id.request()')  sign in
-							|	to rate
-							form(id='login-form', action='/auth', method='POST')
-								input(id='assertion-field', type='hidden', name='assertion', value='')
-								input(type='hidden', name='_csrf', value=csrf)
-					script.
-						$(function () {
-						$('[data-toggle="tooltip"]').tooltip()
-						})
-						function getURLParameter(name) {
-							return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-						}
-						function changeUrlParam (param, value) {
-							var currentURL = window.location.href+'&';
-							var change = new RegExp('('+param+')=(.*)&', 'g');
-							var newURL = currentURL.replace(change, '$1='+value+'&');
-
-							if (getURLParameter(param) !== null){
-								try {
-									window.history.replaceState('', '', newURL.slice(0, - 1) );
-								} catch (e) {
-									console.log(e);
-								}
-							} else {
-								var currURL = window.location.href;
-								if (currURL.indexOf("?") !== -1){
-									window.history.replaceState('', '', currentURL.slice(0, - 1) + '&' + param + '=' + value);
-								} else {
-									window.history.replaceState('', '', currentURL.slice(0, - 1) + '?' + param + '=' + value);
-								}
-							}
-						}
-						if(!parseInt(getURLParameter('page'))) {
-							changeUrlParam('page', 0)
-						}
-						$('#carousel-gallery').carousel({
-							interval:false // remove interval for manual sliding
-						});
-						// when the carousel slides, load the ajax content
-						$('#carousel-gallery').on('slid.bs.carousel', function (e) {
-
-						var idx = $('#carousel-gallery .item.active').data('slide-number');
-
-						changeUrlParam('page', idx);
-
-							if( $(".item.active > img").length == 0 ) {
-								// ajax load from data-url
-								$('.item.active').load($('.item.active').data('url'));
-							}
-							if( $(".item.active").next().children().length == 0 ) {
-								$('.item.active').next().load($('.item.active').next().data('url'));
-							}
-							if( $(".item.active").prev().children().length == 0 ) {
-								$('.item.active').prev().load($('.item.active').prev().data('url'));
-							}
-						});
-
-						// load first slide
-						$('.carousel').carousel(parseInt(getURLParameter('page')))
-						var firstslide = '.item.active';
-						$(firstslide).load($(firstslide).data('url'));
-						$(firstslide).next().load($(firstslide).next().data('url'));
-
+									//ol(class='carousel-indicators')
+										li.active(data-target='#carousel-gallery' data-slide-to='0')
+										- var i = 1
+											while i < gallery.properties.pages
+												li(data-target='#carousel-gallery' data-slide-to=i++)
+									.carousel-inner(role='listbox')
+										.item.active(data-url='/gallery/view/#{gallery.number}/0', data-slide-number='0')
+										- var x = 1
+											while x < gallery.properties.pages
+												.item(data-url='/gallery/view/#{gallery.number}/#{x}', , data-slide-number=x)
+												-x++
+									a.left.carousel-control(href='#carousel-gallery', role='button', data-slide='prev')
+										span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+										span.sr-only Previous
+									a.right.carousel-control(href='#carousel-gallery', role='button', data-slide='next')
+										span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+										span.sr-only Next
 			else
-				.panel-heading= title
+				script.
+					window.location.replace('/gallery/contribute/view/#{gallery.number}')
 		else
-			.panel-heading= title
+			.panel-heading
+				h3= title 
+	script.
+		if(!parseInt(getURLParameter('page'))) {
+			changeUrlParam('page', 0)
+		}
+		$('#carousel-gallery').carousel({
+			interval:false // remove interval for manual sliding
+		});
+		// when the carousel slides, load the ajax content
+		$('#carousel-gallery').on('slid.bs.carousel', function (e) {
+
+		var idx = $('#carousel-gallery .item.active').data('slide-number');
+
+		changeUrlParam('page', idx);
+
+			if( $(".item.active > img").length == 0 ) {
+				// ajax load from data-url
+				$('.item.active').load($('.item.active').data('url'));
+			}
+			if( $(".item.active").next().children().length == 0 ) {
+				$('.item.active').next().load($('.item.active').next().data('url'));
+			}
+			if( $(".item.active").prev().children().length == 0 ) {
+				$('.item.active').prev().load($('.item.active').prev().data('url'));
+			}
+		});
+
+		// load first slide
+		$('.carousel').carousel(parseInt(getURLParameter('page')))
+		var firstslide = '.item.active';
+		$(firstslide).load($(firstslide).data('url'));
+		$(firstslide).next().load($(firstslide).next().data('url'));

@@ -3,29 +3,29 @@ extends layout
 block content
 	.jumbotron
 		h1= title
-		br
+		p
 		if usermail
 			.text-center
 				btn.btn-info.btn-lg.fileUpload#uploadField
 					form#uploadForm(method='post', action='/upload', enctype='multipart/form-data')
-						input#uploadInput(type='file', name='file', multiple, ondragenter='dragEnter(event)' ondragleave='dragLeave(event)')
+						input#uploadInput(type='file', name='file', multiple)
 					span#uploadSpn
 						i.glyphicon.glyphicon-upload
-						|	Select or drop file
-				br
-				br
+						|	Select or drop files
+				p
+				p
 				h4
 					span.label.label-default#uploadNumber
 					span.label.label-default#uploadSize
-			br
+			p
 			div.row#list
-			br
+			p
 			.text-center
 				button.hidden#btnSubmit(type='submit')
 					span.glyphicon.glyphicon-ok(aria-hidden='true')
 					|	Submit
-			br
-			br
+			p
+			p
 			.progress
 				.hidden.progress-bar.progress-bar-info#uploadbar(role='progressbar', aria-valuemin='0', aria-valuemax='100', style='width: 30%;')
 		else

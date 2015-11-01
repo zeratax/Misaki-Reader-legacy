@@ -1,10 +1,14 @@
 extends layout
 
 block content
-	.panel.panel-default
+	.panel.panel-primary
 		if tag			
-			if tag.properties.status != 'deleted'
-				.panel-heading New Tag: #{title}
+			if tag.properties.status != 'deleted' && tag.properties.status != 'edit' 
+				.panel-heading New Tag: #{title} 
+					if tag.properties.status == 'pending' && usermail == tag.user.mail
+						a.btn.btn-info(href='/tag/contribute/edit/#{tag.number}')
+							span.glyphicon.glyphicon-edit(aria-hidden='true')
+							|	Edit
 				.panel-body
 					table.table.table-hover.table-bordered
 						tbody
@@ -25,6 +29,12 @@ block content
 								th Alternative:
 								td= tag.title.alternative
 							tr
+								th Related:
+								td
+									each gallery in tag.properties.related
+										a.label.label-default(href='/gallery/view/#{gallery.number}', data-toggle='tooltip', data-placement='top', title=gallery.properties.description) #{gallery.title.english}/#{gallery.title.japanese}
+										a 
+							tr
 								th Description: 
 								td= tag.properties.description
 							tr.space
@@ -33,7 +43,7 @@ block content
 							tr
 								th Submitted by:
 								td
-									a(href='/user/#{tag.user._id}', class=tag.user.role, title=tag.user.role)= tag.user.name
+									a(href='/user/#{tag.user.number}', class=tag.user.role, title=tag.user.role)= tag.user.name
 							tr
 								th Submitted on:
 								td #{prettyDate(tag.date)}
@@ -42,13 +52,20 @@ block content
 								td#published #{prettyDate(tag.published)}
 							tr
 								th Status:
-								td#status(class='#{tag.properties.status}')= tag.properties.status
+								td#status(class='#{tag.properties.status}')
+									a(href='/tag/contribute/list/#{tag.properties.status}')= tag.properties.status
 							tr
 								th Points:
-								td#points #{votes.reduce(function(total, vote) { return total + vote.vote; }, 0)} from #{votes.length} votes
+								td#points 
+									span.badge #{votes.reduce(function(total, vote) { return total + vote.vote; }, 0)}
 							tr
 								th Note:
 								td= tag.note
+							if tag.properties.status == 'published'
+								tr
+									th Link:
+									td 
+										a(href='/tag/view/#{tag.number}') /tag/view/#{tag.number}
 					if usermail
 						if tag.properties.status == 'pending' || currentuser.role == 'admin'
 							.jumbotron
@@ -75,8 +92,8 @@ block content
 										url: '/modify/tag/#{tag._id}/' + $(this).val(),
 										type:'POST',
 										success: function(msg) {
-										$('#status').load('/tag/contribute/view/#{tag._id} #status');
-										$('#published').load('/tag/contribute/view/#{tag._id} #published');
+										$('#status').load('/tag/contribute/view/#{tag.number} #status');
+										$('#published').load('/tag/contribute/view/#{tag.number} #published');
 										$('html, body').animate({
 									    	scrollTop: $('#published').offset().top
 										}, 500);
@@ -104,7 +121,7 @@ block content
 											},
 											success: function(msg) {
 											//alert('Tag rated');
-											$('#points').load('/tag/contribute/view/#{tag._id} #points');
+											$('#points').load('/tag/contribute/view/#{tag.number} #points');
 											$('html, body').animate({
 										    	scrollTop: $('#points').offset().top
 											}, 500);
@@ -119,6 +136,9 @@ block content
 								input(id='assertion-field', type='hidden', name='assertion', value='')
 								input(type='hidden', name='_csrf', value=csrf)
 			else
-				.panel-heading= title
+				.panel-heading 
+					h5= title
+						small has been deleted or is still in editing
 		else
-			.panel-heading= title
+			.panel-heading 
+				h5 tag not found

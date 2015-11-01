@@ -1,0 +1,39 @@
+extends layout
+
+block content
+	.jumbotron
+		if tag.properties.status != 'deleted' && tag.properties.status != 'published' && tag.properties.status != 'rejected'
+			div.panel.panel-primary
+				if tag
+					div.panel-heading
+						h3.panel-title Edit #{title}
+					div.panel-body
+						form#formEdittag(name='edittag',method='POST',action='/tag/contribute/edit/#{tag._id}')
+							+input('english', 'English title', 50, tag.title.english)
+							+input('japanese', 'Japanese title', 50, tag.title.japanese)
+							+input('alternative', 'Alternative title', 50, tag.title.alternative)
+							//-i = ''
+							each gallery in tag.properties.related
+								-i += ',' + gallery.number
+							+input('related', 'Related gallery', 200,  i)
+							.form-group
+								label(for='description')= 'Description'
+								textarea.form-control(id= 'description', type="text", placeholder='a short description', name='description',maxlength='500')= tag.properties.description
+							.form-group
+								label(for='note')= 'Note/Flavor text'
+								textarea.form-control(id= 'note', type="text", placeholder='a short note', name='note',maxlength='500')= tag.note
+							.btn-group(role='group', aria-label='Text Submit')
+								a.btn.btn-danger#btnDelete(href='/', role="button") delete
+								button.btn.btn-success#btnSubmit(type="submit") submit
+		else
+			.panel-heading=title
+	script.
+		$('#btnDelete').click(function() {
+			$.ajax({
+				url: '/modify/tag/#{tag._id}/deleted',
+				type:'POST',
+				success: function(msg) {
+					window.location.replace('/tag/contribute/list/deleted/');
+				}
+			});
+		});

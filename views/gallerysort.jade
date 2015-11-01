@@ -1,11 +1,34 @@
 extends layout
 
 block content
-	.jumbotron
-		h1.
-			Gallery List
-		
-			each gallery, i in gallerylist
-				div.col-xs-6.col-sm-4.col-md-3.col-lg-2
-					a.thumbnail(href='/gallery/#{gallery._id}')
-						img.cover(src='/images/djnshiplaceholder.png')div.row
+	.panel.panel-primary
+		if gallerylist
+			if tag
+				.panel-heading
+						h1
+							small Galleries tagged with
+							|	 #{title}
+				.panel-body
+					h4 Description:
+					.well
+						if tag.description
+							p= tag.description
+						else
+							p -no description-
+							
+
+			else
+				.panel-heading
+						h1= title
+			ul.list-group
+				li.list-group-item
+					h3 Galleries:
+					.well
+						.row
+							each gallery, i in gallerylist
+								.col-xs-6.col-sm-4.col-md-3.col-lg-2
+									h6 #{gallery.title.english} / #{gallery.title.japanese}
+									a.thumbnail(href='/gallery/view/#{gallery.number}')
+										img.cover(src='/uploads/#{gallery.number}/0.png')
+		else
+			h3= title

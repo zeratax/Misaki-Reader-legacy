@@ -1,10 +1,10 @@
 extends layout
 
 block content
-	.panel.panel-default
+	.panel.panel-primary
 		.panel-heading= title
 		.panel-body
-			table.table.table-striped
+			table.table.table-condensed.table-striped
 				thead
 					tr
 						th #
@@ -15,17 +15,27 @@ block content
 						th Date
 				tbody
 					each object, i in objects
-						tr(id=object._id)
+						tr(id=object.number)
 							th(scope='row') #{i}
 							td 
-								a(href='/#{objectname}/contribute/view/#{object._id}')= object.title.english
+								a(href='/#{objectname}/contribute/view/#{object.number}')= object.title.english
 							td 
-								a(href='/#{objectname}/contribute/view/#{object._id}')= object.title.japanese
+								a(href='/#{objectname}/contribute/view/#{object.number}')= object.title.japanese
 							td 
 								a(href='/#{objectname}/type/#{object.properties.type}')= object.properties.type
 							td 
-								a(href='/user/#{object.user._id}', class=object.user.role, title=object.user.role)= object.user.name
+								a(href='/user/#{object.user.number}', class=object.user.role, title=object.user.role)= object.user.name
 							td #{prettyDate(object.date)}
 		.panel-footer
+			.text-center
+				ul.pagination
+					li
+						a(href='/#{objectname}/contribute/list/deleted') Deleted
+					li
+						a(href='/#{objectname}/contribute/list/rejected') Rejected
+					li
+						a(href='/#{objectname}/contribute/list/pending') Pending
+					li
+						a(href='/#{objectname}/contribute/list/published') Published
 			p Submit a 
 				a(href='/#{objectname}/contribute/new') new #{objectname}!
