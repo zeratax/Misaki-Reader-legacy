@@ -35,7 +35,12 @@ router.auth = function (audience) {
 		req.session.email = email;
 		//usermail = email;
 		User.count(function (err, count) {
-			var newUser = new User({ 'mail' : email, 'number' : count });
+			if(count == 0){
+				var role = 'admin';
+			}else{
+				role='user';
+			}
+			var newUser = new User({ 'mail' : email, 'number' : count, 'role' : role });
 			newUser.save(function (err, newUser) {
 				if (err) {
 			   //console.error(err);
