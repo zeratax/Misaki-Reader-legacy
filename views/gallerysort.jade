@@ -11,8 +11,8 @@ block content
 				.panel-body
 					h4 Description:
 					.well
-						if tag.description
-							p= tag.description
+						if tag.properties.description
+							p= tag.properties.description
 						else
 							p -no description-
 							
@@ -27,8 +27,15 @@ block content
 						.row
 							each gallery, i in gallerylist
 								.col-xs-6.col-sm-4.col-md-3.col-lg-2
-									h6 #{gallery.title.english} / #{gallery.title.japanese}
+									//
 									a.thumbnail(href='/gallery/view/#{gallery.number}')
+										//h6 #{gallery.title.english} / #{gallery.title.japanese}
 										img.cover(src='/uploads/#{gallery.number}/0.png')
 		else
 			h3= title
+	//script.
+		var cw = $('.cover').width();
+		$( window ).resize(function() {
+			cw = $('.cover').width();
+		});
+		$('.cover').css({'height': (cw*4/3) + 'px'});

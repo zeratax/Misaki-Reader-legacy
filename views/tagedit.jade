@@ -12,10 +12,6 @@ block content
 							+input('english', 'English title', 50, tag.title.english)
 							+input('japanese', 'Japanese title', 50, tag.title.japanese)
 							+input('alternative', 'Alternative title', 50, tag.title.alternative)
-							//-i = ''
-							each gallery in tag.properties.related
-								-i += ',' + gallery.number
-							+input('related', 'Related gallery', 200,  i)
 							.form-group
 								label(for='description')= 'Description'
 								textarea.form-control(id= 'description', type="text", placeholder='a short description', name='description',maxlength='500')= tag.properties.description

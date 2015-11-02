@@ -9,8 +9,7 @@ var tagSchema = new Schema({
     },
     properties: {
         status: { type: String, default: 'pending', enum: ['edit', 'pending', 'published', 'rejected', 'deleted'] },
-        type : { type: String, required: true, enum: ['Category', 'Artist', 'Circle', 'Scanlator', 'Parody', 'Character', 'Content', 'Collection']  },
-        related : [ { type: Schema.Types.ObjectId, ref: 'gallery' } ],
+        type : { type: String, required: true, enum: ['Category', 'Artist', 'Circle', 'Scanlator', 'Parody', 'Character', 'Content', 'Collection', 'Convention']  },
         description: { type: String,  trim: true, max: 500 }
     },
     note: { type: String,  trim: true, max: 500 },

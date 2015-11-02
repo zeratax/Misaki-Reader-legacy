@@ -56,6 +56,11 @@ block content
 							tr
 								th Note:
 								td= gallery.note
+							tr
+								th Link:
+								td#link
+									if gallery.properties.status == 'published'
+										a(href='/gallery/view/#{gallery.number}') /gallery/view/#{gallery.number}
 					a.thumbnail(href='/uploads/#{gallery.number}/0.png')
 						img(src='/uploads/#{gallery.number}/0.png', alt='cover')
 				if usermail
@@ -86,6 +91,7 @@ block content
 										success: function(msg) {
 										$('#status').load('/gallery/contribute/view/#{gallery.number} #status');
 										$('#published').load('/gallery/contribute/view/#{gallery.number} #published');
+										$('#link').load('/gallery/contribute/view/#{gallery.number} #link');
 										$('html, body').animate({
 									    	scrollTop: $('#published').offset().top
 										}, 500);
@@ -127,14 +133,18 @@ block content
 							form(id='login-form', action='/auth', method='POST')
 								input(id='assertion-field', type='hidden', name='assertion', value='')
 								input(type='hidden', name='_csrf', value=csrf)
+					p
+					h3 Comments:
+					br
+					br
 					script.
 						$(function () {
 						$('[data-toggle="tooltip"]').tooltip()
 						})
 			else
 				.panel-heading 
-					h5	#{title} 
-						small has been deleted or is still in editing
+					h5 #{title}
+						small  has been deleted or is still in editing
 		else
 			.panel-heading
 				h5 tag not found

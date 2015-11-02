@@ -3,30 +3,65 @@ extends layout
 block content
 	.panel.panel-primary
 		if gallery			
-			if gallery.properties.status == 'published'
-				.panel-heading
-					h3 Gallery: #{title} 
-				.carousel.slide#carousel-gallery(data-ride='carousel', data-keyboard='true', data-intervall='false')
-									//ol(class='carousel-indicators')
-										li.active(data-target='#carousel-gallery' data-slide-to='0')
-										- var i = 1
-											while i < gallery.properties.pages
-												li(data-target='#carousel-gallery' data-slide-to=i++)
-									.carousel-inner(role='listbox')
-										.item.active(data-url='/gallery/view/#{gallery.number}/0', data-slide-number='0')
-										- var x = 1
-											while x < gallery.properties.pages
-												.item(data-url='/gallery/view/#{gallery.number}/#{x}', , data-slide-number=x)
-												-x++
-									a.left.carousel-control(href='#carousel-gallery', role='button', data-slide='prev')
-										span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
-										span.sr-only Previous
-									a.right.carousel-control(href='#carousel-gallery', role='button', data-slide='next')
-										span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
-										span.sr-only Next
-			else
-				script.
-					window.location.replace('/gallery/contribute/view/#{gallery.number}')
+			.panel-heading
+				h3 Gallery: 
+					a.title(href='/gallery/contribute/view/#{gallery.number}') #{title}
+			.carousel.slide#carousel-gallery(data-ride='carousel', data-keyboard='true', data-intervall='false')
+								//ol(class='carousel-indicators')
+									li.active(data-target='#carousel-gallery' data-slide-to='0')
+									- var i = 1
+										while i < gallery.properties.pages
+											li(data-target='#carousel-gallery' data-slide-to=i++)
+								.carousel-inner(role='listbox')
+									.item.active(data-url='/gallery/view/#{gallery.number}/0', data-slide-number='0')
+									- var x = 1
+										while x < gallery.properties.pages
+											.item(data-url='/gallery/view/#{gallery.number}/#{x}', , data-slide-number=x)
+											-x++
+								a.left.carousel-control(href='#carousel-gallery', role='button', data-slide='prev')
+									span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+									span.sr-only Previous
+								a.right.carousel-control(href='#carousel-gallery', role='button', data-slide='next')
+									span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+									span.sr-only Next
+			.panel-footer
+				if usermail
+						h4 Rate this post
+						.rate
+							.btn-group(role='group', aria-label='Rating')
+								button.btn.btn-danger.btnvote#btnDownvote(name='vote', value=-1)
+									span.glyphicon.glyphicon-thumbs-down(aria-hidden='true')
+									|	Downvote
+								button.btn.btn-success.btnvote#btnUpvote(name='vote', value=+1)
+									span.glyphicon.glyphicon-thumbs-up(aria-hidden='true')
+									|	Upvote
+							script.
+								$('.btnvote').click(function() {
+									$.ajax({
+										url: '/vote/#{gallery._id}',
+										type:'POST',
+										data: {
+											vote: $(this).val()
+										},
+										success: function(msg) {
+										//alert('gallery rated');
+										$('#points').load('/gallery/view/#{gallery.number} #points');
+										$('html, body').animate({
+									    	scrollTop: $('#points').offset().top
+										}, 500);
+										}
+									});
+								});
+						p
+						p#points Points: 
+							span.badge #{votes.reduce(function(total, vote) { return total + vote.vote; }, 0)}
+					else
+						.rate Please
+							a#browserid(href='javascript:navigator.id.request()')  sign in
+							|	to rate
+							form(id='login-form', action='/auth', method='POST')
+								input(id='assertion-field', type='hidden', name='assertion', value='')
+								input(type='hidden', name='_csrf', value=csrf)
 		else
 			.panel-heading
 				h3= title 

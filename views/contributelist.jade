@@ -7,25 +7,26 @@ block content
 			table.table.table-condensed.table-striped
 				thead
 					tr
-						th #
 						th English
 						th Japanese
 						th Category
 						th User
 						th Date
 				tbody
-					each object, i in objects
-						tr(id=object.number)
-							th(scope='row') #{i}
-							td 
-								a(href='/#{objectname}/contribute/view/#{object.number}')= object.title.english
-							td 
-								a(href='/#{objectname}/contribute/view/#{object.number}')= object.title.japanese
-							td 
-								a(href='/#{objectname}/type/#{object.properties.type}')= object.properties.type
-							td 
-								a(href='/user/#{object.user.number}', class=object.user.role, title=object.user.role)= object.user.name
-							td #{prettyDate(object.date)}
+					if objects
+						each object, i in objects
+							tr(id=object.number)
+								td 
+									a(href='/#{objectname}/contribute/view/#{object.number}')= object.title.english
+								td 
+									a(href='/#{objectname}/contribute/view/#{object.number}')= object.title.japanese
+								td
+									if objectname == 'tag'	
+										a(href='/#{objectname}/type/#{object.properties.type}')= object.properties.type
+									else
+								td 
+									a(href='/user/#{object.user.number}', class=object.user.role, title=object.user.role)= object.user.name
+								td #{prettyDate(object.date)}
 		.panel-footer
 			.text-center
 				ul.pagination

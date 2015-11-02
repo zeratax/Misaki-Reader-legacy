@@ -53,11 +53,13 @@ html
 		//---
 		include mixins
 		include navbar
+		include breadcrumb
 		.container
-			.col-xs-12.col-md-9
-				block content
-			.col-xs-12.col-md-3
-				include sidebar
+			.row
+				.col-xs-12.col-md-9
+					block content
+				.col-xs-12.col-md-3
+					include sidebar	
 		include footer
 		
 

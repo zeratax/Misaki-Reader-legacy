@@ -29,12 +29,6 @@ block content
 								th Alternative:
 								td= tag.title.alternative
 							tr
-								th Related:
-								td
-									each gallery in tag.properties.related
-										a.label.label-default(href='/gallery/view/#{gallery.number}', data-toggle='tooltip', data-placement='top', title=gallery.properties.description) #{gallery.title.english}/#{gallery.title.japanese}
-										a 
-							tr
 								th Description: 
 								td= tag.properties.description
 							tr.space
@@ -61,10 +55,10 @@ block content
 							tr
 								th Note:
 								td= tag.note
-							if tag.properties.status == 'published'
-								tr
-									th Link:
-									td 
+							tr
+								th Link:
+								td#link
+									if tag.properties.status == 'published'
 										a(href='/tag/view/#{tag.number}') /tag/view/#{tag.number}
 					if usermail
 						if tag.properties.status == 'pending' || currentuser.role == 'admin'
@@ -94,6 +88,7 @@ block content
 										success: function(msg) {
 										$('#status').load('/tag/contribute/view/#{tag.number} #status');
 										$('#published').load('/tag/contribute/view/#{tag.number} #published');
+										$('#link').load('/tag/contribute/view/#{tag.number} #link');
 										$('html, body').animate({
 									    	scrollTop: $('#published').offset().top
 										}, 500);
@@ -138,7 +133,7 @@ block content
 			else
 				.panel-heading 
 					h5= title
-						small has been deleted or is still in editing
+						small  has been deleted or is still in editing
 		else
 			.panel-heading 
 				h5 tag not found

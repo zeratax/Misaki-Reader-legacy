@@ -134,8 +134,22 @@ router.get('/gallery/sort/:id', function(req, res) {
 	if (req.params.id.toLowerCase() ==  'newest') {
 		Gallery.find({'properties.status' : 'published'}, function(e,gallery){
 			res.render('gallerysort', {
-				'gallerylist' : gallery,
+				'gallerylist' : gallery.reverse(),
 				title: 'Newest Galleries',
+				usermail: req.session.email, 
+				csrf: req.session._csrf
+			});
+		});
+	}else if (req.params.id.toLowerCase() ==  'alphabetical') {
+		Gallery.find({'properties.status' : 'published'}, function(e,gallery){
+			gallery.sort(function(a, b) {
+				var textA = a.title.english.toUpperCase();
+				var textB = b.title.english.toUpperCase();
+				return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+			});
+			res.render('gallerysort', {
+				'gallerylist' : gallery,
+				title: 'Galleries sorted by Title',
 				usermail: req.session.email, 
 				csrf: req.session._csrf
 			});
@@ -156,7 +170,7 @@ router.get('/tag/view/:id', function(req, res) {
 			Gallery.find({'tags.tag' : tag._id }, function(e,gallery){
 				if (gallery) {
 					res.render('gallerysort', {
-						'gallerylist' : gallery,
+						'gallerylist' : gallery.reverse(),
 						'tag' : tag,
 						title: tag.title.english + ' / ' + tag.title.japanese,
 						usermail: req.session.email, 
@@ -233,6 +247,7 @@ router.get('/gallery/view/:id', function(req, res) {
 			Gallery.populate(gallery, { 'path': 'user' }, function(e, gallery) {				
 				User.findOne({ mail: req.session.email}, function(e, user) {
 					if ( gallery ) {
+						if (gallery.properties.status == 'published') {
 						gallerytitle = gallery.title.english + ' / ' + gallery.title.japanese;
 						Vote.find({ target: gallery._id}, function(e, vote) {
 							res.render('galleryview', {
@@ -245,6 +260,9 @@ router.get('/gallery/view/:id', function(req, res) {
 								csrf: req.session._csrf
 							});
 						});
+					}else{
+						res.redirect('/gallery/contribute/view/' + req.params.id)
+					}
 					}else{
 						gallerytitle = 'Gallery not found';
 						res.status(404).render('galleryview', {
@@ -336,7 +354,8 @@ router.post('/gallery/contribute/edit/:id', function(req, res) {
 														tags.splice(i, i+1);
 													}
 												}
-												Tag.findOne({  '$and' : [ { '$or' : [ { 'number' : tags[i] }, { 'title.english' : tags[i] }, { 'title.japanese' : tags[i] } ] } , {'properties.status' : 'published'} ] }, function(e, tag) {
+												Tag.findOne({  '$and' : [ { '$or' : [ { 'number' : isNaN(tags[i]) ? -1 : tags[i] }, { 'title.english' : tags[i] }, { 'title.japanese' : tags[i] } ] } , {'properties.status' : 'published'} ] }, function(e, tag) {
+													console.error(e);
 													if (tag) {
 														Gallery.update({
 														_id : req.params.id
@@ -379,30 +398,28 @@ router.post('/gallery/contribute/edit/:id', function(req, res) {
 router.get('/tag/contribute/edit/:id', function(req, res) {
 	if ( req.session.email ) {
 		Tag.findOne({ 'number': req.params.id}, function(e, tag) {
-			Tag.populate(tag, { 'path': 'properties.related' }, function(e, tag) {
-				if (tag) {
-					User.findOne({ _id: tag.user }, function(e, user) {
-						if (user.mail == req.session.email || user.role == 'admin') {
-							if ( tag ) {
-								tagtitle = tag.title.english + ' / ' + tag.title.japanese;
-							}else{
-								tagtitle = 'Gallery not found';
-								res.status(404);
-							}
-							res.render('tagedit', {
-								'tag' : tag, 
-								title: tagtitle,
-								usermail: req.session.email, 
-								csrf: req.session._csrf
-							});
+			if (tag) {
+				User.findOne({ _id: tag.user }, function(e, user) {
+					if (user.mail == req.session.email || user.role == 'admin') {
+						if ( tag ) {
+							tagtitle = tag.title.english + ' / ' + tag.title.japanese;
 						}else{
-							res.status(401).send('you do not have permission to edit this');
+							tagtitle = 'Gallery not found';
+							res.status(404);
 						}
-					});
-				}else{
-					res.status(404).redirect('/tag/contribute/pending');
-				}
-			});
+						res.render('tagedit', {
+							'tag' : tag, 
+							title: tagtitle,
+							usermail: req.session.email, 
+							csrf: req.session._csrf
+						});
+					}else{
+						res.status(401).send('you do not have permission to edit this');
+					}
+				});
+			}else{
+				res.status(404).redirect('/tag/contribute/pending');
+			}
 		});
 	}else{
 		res.status(401).redirect('/tag/contribute/view/' + req.params.id);
@@ -421,10 +438,7 @@ router.post('/tag/contribute/edit/:id', function(req, res) {
 							if (req.body.alternative) {
 								var alternative = req.body.alternative.split(',');
 							}
-							if (req.body.related) {
-								var related = req.body.related.split(',');
-							}
-							var description = req.body.type;
+							var description = req.body.description;
 							var note = req.body.note;
 							if(english != '' && japanese !=''){
 								Tag.update({
@@ -437,46 +451,12 @@ router.post('/tag/contribute/edit/:id', function(req, res) {
 									},
 									'note' : note,
 									'properties.description' : description,
-									'properties.status' : 'pending',
-									'$unset': { 'properties.related' : 1 }
+									'properties.status' : 'pending'
 								}, {upsert: true}, function(err) {
 									if (err) {
 									   res.status(500).send('there was a problem');
 									   console.error(err);
 								   }else{
-										if(related && tag.properties.type == 'Category') {
-											for (var i = related.length - 1; i >= 0; i--) {
-												for (var j = related.length - 1; j >= 0; j--) {
-													if (j!=i && related[i] == related[j]) {
-														related.splice(i, i+1);
-													}
-												}
-												Gallery.findOne(
-													{  '$and' : [ 
-														{ '$or' : [ 
-															{ 'number' : related[i] },
-															{ 'title.english' : related[i] },                                                            
-															{ 'title.japanese' : related[i] } 
-														] } , 
-														{'properties.status' : 'published'} 
-													] }, 
-													function(e, gallery) {
-														if (gallery) {
-															Tag.update({
-															_id : req.params.id
-															}, {
-																'$addToSet': { 
-																	'properties.related' : gallery
-																}
-															}, function(err) {
-																if (err) {
-																   console.error(err);
-															   }
-															}); 
-														}
-												});
-											};
-										}
 										res.redirect('/tag/contribute/view/' + tag.number);
 									}
 								});
@@ -493,7 +473,7 @@ router.post('/tag/contribute/edit/:id', function(req, res) {
 			}
 		});
 	}else{
-		res.status(401).redirect('/tag/contribute/view/' + req.params.id);
+		res.status(401).redirect('/tag/contribute/pending/');
 	}
 });
 
@@ -509,7 +489,6 @@ router.post('/tag/contribute/new', function(req, res) {
 	if ( req.session.email ) {
 		User.findOne({ mail: req.session.email}, function(e, uploader) {
 			// Submit to the DB
-			var related =""; //do some nice validating with that
 			Tag.count(function (err, count) {
 				var newTag = new Tag({
 					'title' : {
@@ -547,7 +526,7 @@ router.get('/tag/contribute/list/:status', function(req, res) {
 	Tag.find({'properties.status' : req.params.status.toLowerCase()}, function(err, tag) {
 		Tag.populate(tag, { 'path': 'user'}, function(e, tag) {
 			res.render('contributelist', {
-				'objects' : tag,
+				'objects' : tag.reverse(),
 				'objectname' : 'tag',
 				title: req.params.status.toLowerCase().capitalizeFirstLetter() + ' Tag List', 
 				usermail: req.session.email, 
@@ -574,31 +553,29 @@ router.get('/gallery/contribute/list/:status', function(req, res) {
 router.get('/tag/contribute/view/:id', function(req, res) {
 	Tag.findOne({ 'number' : req.params.id}, function(e, tag) {
 		Tag.populate(tag, { 'path': 'user'}, function(e, tag) {
-			Tag.populate(tag, { 'path': 'properties.related'}, function(e, tag) {
-				User.findOne({ mail: req.session.email}, function(e, user) {
-					if ( tag ) {
-						tagtitle = tag.title.english + ' / ' + tag.title.japanese;
-						Vote.find({ target: tag._id}, function(e, vote) {
-							res.render('tagview', {
-								'tag' : tag, 
-								'votes' : vote,
-								'currentuser' : user,
-								title: tagtitle,
-								usermail: req.session.email, 
-								csrf: req.session._csrf
-							});
-						});
-					}else{
-						tagtitle = 'Tag not found';
-						res.status(404).render('tagview', {
+			User.findOne({ mail: req.session.email}, function(e, user) {
+				if ( tag ) {
+					tagtitle = tag.title.english + ' / ' + tag.title.japanese;
+					Vote.find({ target: tag._id}, function(e, vote) {
+						res.render('tagview', {
 							'tag' : tag, 
+							'votes' : vote,
 							'currentuser' : user,
 							title: tagtitle,
 							usermail: req.session.email, 
 							csrf: req.session._csrf
 						});
-					}
-				});
+					});
+				}else{
+					tagtitle = 'Tag not found';
+					res.status(404).render('tagview', {
+						'tag' : tag, 
+						'currentuser' : user,
+						title: tagtitle,
+						usermail: req.session.email, 
+						csrf: req.session._csrf
+					});
+				}
 			});
 		});  
 	});
