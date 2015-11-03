@@ -5,7 +5,7 @@ var userSchema = new Schema({
     name: { type: String, default: 'Anon', max: 15, trim: true },
     mail: { type: String, required: true, trim: true, unique: true },
     image: String,
-    role: { type: String, default: 'user' },
+    role: { type: String, default: 'user', enum: ['admin', 'user', 'moderator', 'banned', 'deleted'] },
     favoriteg: [{
         gallery: { type: Schema.Types.ObjectId, ref: 'gallery' },
         date: { type: Date, default: Date.now },

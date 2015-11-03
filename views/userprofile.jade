@@ -4,6 +4,36 @@ block content
 	.jumbotron
 		if userprofile
 			h2 #{userprofile.name}
-			h3(class=userprofile.role) #{userprofile.role}
+			h3#role(class=userprofile.role) #{userprofile.role}
+			if usermail
+				if currentuser.role == 'admin' && userprofile.role != 'admin'
+					.jumbotron
+						h4 Assign this user to a group
+						.btn-group(role='group', aria-label='administrating')
+							button.btn.btn-danger.btnmodify#btnDelete(name='deletuser', value='deleted', type='button')
+								span.glyphicon.glyphicon-trash(aria-hidden='true')
+								|	Delete
+							button.btn.btn-warning.btnmodify#btnBan(name='banuser', value='banned', type='button')
+								span.glyphicon.glyphicon-remove(aria-hidden='true')
+								|	Ban
+							button.btn.btn-primary.btnmodify#btnUser(name='user', value='user', type='button')
+								span.glyphicon.glyphicon-edit(aria-hidden='true')
+								|	User
+							button.btn.btn-info.btnmodify#btnModerator(name='moderator', value='moderator', type='button')
+								span.glyphicon.glyphicon-ok(aria-hidden='true')
+								|	Moderator
+					script.
+						$('.btnmodify').click(function() {
+							$.ajax({
+								url: '/user/#{userprofile._id}/' + $(this).val(),
+								type:'POST',
+								success: function(msg) {
+									$('#role').load('/user/#{userprofile.number} #role');
+								},
+								error: function(msg) {
+									alert(msg.status + ': '+ msg.responseText);
+								}
+							});
+						});
 		else
 			h2 User not found

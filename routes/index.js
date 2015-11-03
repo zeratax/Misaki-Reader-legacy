@@ -536,6 +536,20 @@ router.get('/tag/contribute/list/:status', function(req, res) {
 	});
 });
 
+router.get('/tag/type/:type/:status', function(req, res) {
+	Tag.find({'properties.status' : req.params.status.toLowerCase(), 'properties.type' : req.params.type.toLowerCase().capitalizeFirstLetter()}, function(err, tag) {
+		Tag.populate(tag, { 'path': 'user'}, function(e, tag) {
+			res.render('contributelist', {
+				'objects' : tag.reverse(),
+				'objectname' : 'tag',
+				title: req.params.type.toLowerCase().capitalizeFirstLetter() + ' Tags (' + req.params.status.toLowerCase() + ')', 
+				usermail: req.session.email, 
+				csrf: req.session._csrf
+			});
+		});
+	});
+});
+
 router.get('/gallery/contribute/list/:status', function(req, res) {
 	Gallery.find({'properties.status' : req.params.status.toLowerCase()}, function(err, gallery) {
 		Gallery.populate(gallery, { 'path': 'user'}, function(e, gallery) {
@@ -582,12 +596,39 @@ router.get('/tag/contribute/view/:id', function(req, res) {
 });
 
 router.get('/user/:id', function(req, res) {
-	User.findOne({ 'number' : req.params.id}, function(e, user) {
-		res.render('userprofile', {
-			'userprofile' : user,
-			usermail: req.session.email,
-			csrf: req.session._csrf
+	User.findOne({ 'number' : req.params.id }, function(e, user) {
+		User.findOne({ 'mail' : req.session.email }, function(e, currentuser) {
+			res.render('userprofile', {
+				'userprofile' : user,
+				'currentuser' : currentuser,
+				usermail: req.session.email,
+				csrf: req.session._csrf
+			});
 		});
+	});
+});
+
+router.post('/user/:id/:role', function(req, res) {
+	User.findOne({ mail : req.session.email}, function(err, currentuser){
+		if(currentuser && req.params.role == 'user' || req.params.role == 'moderator' || req.params.role == 'user' || req.params.role == 'banned' || req.params.role == 'deleted'){
+			if(currentuser.role == 'admin')
+			{
+				User.findOneAndUpdate({ _id : req.params.id }, {'role' : req.params.role}, function(err) {
+					if (err) {
+						console.error(err);
+						res.status(500).send('there was a problem :(')
+					}else{
+						res.send('user role updated');
+					}
+				});
+			}else{
+				res.status(401).send('You need to be an admin')
+				console.info('unpermitted activity');
+			}
+		}else{
+			res.status(401).send('You are not logged in');
+			console.info('User not logged in');
+		}
 	});
 });
 
@@ -689,9 +730,9 @@ router.post('/vote/:id/', function(req, res) {
 					   res.status(500).send('there was a problem');
 					   console.error(err);
 				   }else{
-					res.send('successefully voted')
-				}
-			});
+						res.send('successefully voted')
+					}
+				});
 			});
 		}
 	}            

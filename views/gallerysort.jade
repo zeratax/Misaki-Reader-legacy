@@ -6,8 +6,8 @@ block content
 			if tag
 				.panel-heading
 						h1
-							small Galleries tagged with
-							|	 #{title}
+							small Galleries tagged with 
+							a.title(href='/tag/contribute/view/#{tag.properties.number}') #{title}
 				.panel-body
 					h4 Description:
 					.well
