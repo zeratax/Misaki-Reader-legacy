@@ -22,7 +22,7 @@ block content
 									a(href='/#{objectname}/contribute/view/#{object.number}')= object.title.japanese
 								td
 									if objectname == 'tag'	
-										a(href='/#{objectname}/type/#{object.properties.type}')= object.properties.type
+										a(href='/#{objectname}/type/#{object.properties.type}/published')= object.properties.type
 									else
 								td 
 									a(href='/user/#{object.user.number}', class=object.user.role, title=object.user.role)= object.user.name
@@ -30,6 +30,8 @@ block content
 		.panel-footer
 			.text-center
 				ul.pagination
+					li
+						a(href='edit') Editing needed
 					li
 						a(href='deleted') Deleted
 					li

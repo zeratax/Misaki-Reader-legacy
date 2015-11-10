@@ -226,3 +226,5 @@ public/support/privacy.htm
 public/support/tos.htm
 public/uploads
 .sassbuilder-config.json
+misaki.sublime-project
+*.sublime-workspace

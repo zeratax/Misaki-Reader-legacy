@@ -1,5 +1,3 @@
-##[New Repo][misakinew] build on polymer
-
 ![Misaki][LogoMain]
 
 **Misaki is an online doujinshi reader build with [Node.Js][Nodejs], [Express][Express] and [MongoDB][MongoDB]**
@@ -41,4 +39,3 @@ Powered by ❤ with [Bootstrap][Bootstrap]
 [Nodejs]: https://github.com/nodejs/node
 [MongoDB]: https://github.com/mongodb/node-mongodb-native
 [Bootstrap]: https://github.com/twbs/bootstrap
-[misakinew]: https://github.com/ZerataX/Misaki
