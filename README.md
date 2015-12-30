@@ -1,10 +1,11 @@
-![Misaki][LogoMain]
-
-**Misaki is an online doujinshi reader build with [Node.Js][Nodejs], [Express][Express] and [MongoDB][MongoDB]**
+**This is an online doujinshi reader build with [Node.Js][Nodejs], [Express][Express] and [MongoDB][MongoDB]**
 
 
-this is very much a work in progress by an novice, 
-but it's a fun project and I hope it'll become somewhat useful to you.
+~~this is very much a work in progress by an novice, 
+but it's a fun project and I hope it'll become somewhat useful to you.~~
+
+I'm currently redoing this project as an single page app with polymer as my frontend and go as my backend.
+https://github.com/ZerataX/Doujinshi-Reader
 
 ###Setting up
 Just install the npm package or any equivalent on your system then, using
@@ -34,7 +35,6 @@ to your domain
 
 Powered by ❤ with [Bootstrap][Bootstrap]
 
-[LogoMain]: public/images/misaki.png
 [Express]: https://github.com/strongloop/express
 [Nodejs]: https://github.com/nodejs/node
 [MongoDB]: https://github.com/mongodb/node-mongodb-native
