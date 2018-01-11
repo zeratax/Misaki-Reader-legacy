@@ -1,13 +1,12 @@
-**This is an online doujinshi reader build with [Node.Js][Nodejs], [Express][Express] and [MongoDB][MongoDB]**
+**This is an online manga reader build with [Node.Js][Nodejs], [Express][Express] and [MongoDB][MongoDB]**
 
 
 ~~this is very much a work in progress by an novice, 
 but it's a fun project and I hope it'll become somewhat useful to you.~~
 
-I'm currently redoing this project as an single page app with polymer as my frontend and go as my backend.
-https://github.com/ZerataX/Doujinshi-Reader
+I hope to find time to redo this project with some fun frameworks or something.
 
-###Setting up
+### Setting up
 Just install the npm package or any equivalent on your system then, using
 your newly installed npm install the express framework:
 ```
@@ -22,7 +21,7 @@ npm start
 ```
 
 
-###Tweaks
+### Tweaks
 if you want to use the login by persona, you have to change
 
 ```javascript
